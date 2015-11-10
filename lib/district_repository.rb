@@ -13,11 +13,11 @@ class DistrictRepository
   def find_by_name(district)
     csv_table = @data[:kindergarten]
     csv_table.each do |row|
-      if row[:location] == district
-        puts row[:location]
+      if row[:location].upcase == district.upcase
+        return row[:location].upcase
       end
     end
-
+    return nil
   end
 
   def find_all_matching
@@ -33,5 +33,5 @@ class DistrictRepository
 end
 
 dr = DistrictRepository.new
-dr.load_data({:enrollment => {:kindergarten => "../test/fixtures/Kindergartners in full-day program fixture.csv"}})
+dr.load_data({:enrollment => {:kindergarten => "./test/fixtures/Kindergartners in full-day program fixture.csv"}})
 district = dr.find_by_name("ACADEMY 20")

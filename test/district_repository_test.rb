@@ -8,12 +8,18 @@ class DistrictRepositoryTest < Minitest::Test
     assert DistrictRepository.new
   end
 
-  def test_find_by_name_returns_a_case_insensitive_district_instance
-    skip
+  def test_find_by_name_is_case_insensitive
+    dr = DistrictRepository.new
+    dr.load_data({:enrollment => {:kindergarten => "./test/fixtures/Kindergartners in full-day program fixture.csv"}})
+
+    assert_equal "COLORADO", dr.find_by_name("ColORadO")
   end
 
   def test_find_by_name_returns_nil_with_an_invalid_or_missing_district_name
-    skip
+    dr = DistrictRepository.new
+    dr.load_data({:enrollment => {:kindergarten => "./test/fixtures/Kindergartners in full-day program fixture.csv"}})
+
+    assert_equal nil, dr.find_by_name("Zombies")
   end
 
   def test_find_all_matching_returns_one_or_more_district_name_matches
@@ -28,10 +34,24 @@ class DistrictRepositoryTest < Minitest::Test
     skip
   end
 
-  def test_load_data_takes_the_proper_hash_arguments
+  def test_data_hash_is_empty_initially
     dr = DistrictRepository.new
-    dr.load_data({:enrollment => {:kindergarten => "./data/Kindergartners in full-day program.csv"}})
 
+    assert_equal 0, dr.data.length
+  end
+
+  def test_load_data_adds_csv_table_to_data_hash
+    dr = DistrictRepository.new
+    dr.load_data({:enrollment => {:kindergarten => "./test/fixtures/Kindergartners in full-day program fixture.csv"}})
+
+    assert_equal 1, dr.data.length
+  end
+
+  def test_load_data_creates_proper_key_in_data_hash
+    dr = DistrictRepository.new
+    dr.load_data({:enrollment => {:kindergarten => "./test/fixtures/Kindergartners in full-day program fixture.csv"}})
+
+    assert_equal [:kindergarten], dr.data.keys
   end
 
 end

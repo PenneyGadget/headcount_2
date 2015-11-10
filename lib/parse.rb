@@ -9,12 +9,3 @@ class Parse
   end
 
 end
-
-
-# Parse.new("../data/Pupil enrollment.csv")
-
-# if row[:location] == 'ACADEMY 20'
-#   district = District.new
-#   district.enrollment = row[:data]
-#   data << district
-# end
