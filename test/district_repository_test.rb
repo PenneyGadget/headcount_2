@@ -22,16 +22,28 @@ class DistrictRepositoryTest < Minitest::Test
     assert_equal nil, dr.find_by_name("Zombies")
   end
 
-  def test_find_all_matching_returns_one_or_more_district_name_matches
-    skip
+  def test_find_all_matching_returns_one_district_name_match
+    dr = DistrictRepository.new
+    dr.load_data({:enrollment => {:kindergarten => "./test/fixtures/Kindergartners in full-day program fixture.csv"}})
+    district = dr.find_all_matching("Colorado")
+
+    assert_equal ["COLORADO"], district
   end
 
   def test_find_all_matching_works_with_a_name_fragment
-    skip
+    dr = DistrictRepository.new
+    dr.load_data({:enrollment => {:kindergarten => "./test/fixtures/Kindergartners in full-day program fixture.csv"}})
+    districts = dr.find_all_matching("ca")
+
+    assert_equal ["ACADEMY 20", "CAMPO RE-6", "CANON CITY RE-1"], districts
   end
 
   def test_find_all_matching_returns_an_empty_array_with_no_matches
-    skip
+    dr = DistrictRepository.new
+    dr.load_data({:enrollment => {:kindergarten => "./test/fixtures/Kindergartners in full-day program fixture.csv"}})
+    district = dr.find_all_matching("poop")
+
+    assert_equal [], district
   end
 
   def test_data_hash_is_empty_initially
