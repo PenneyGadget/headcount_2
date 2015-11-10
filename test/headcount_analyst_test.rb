@@ -1,5 +1,5 @@
 require 'minitest/autorun'
-require 'minitest/pride'
+require 'minitest/emoji'
 require './lib/headcount_analyst'
 
 class HeadcountAnalystTest < Minitest::Test

@@ -5,5 +5,4 @@ class District
   def initialize(name)
     @name = name[:name].upcase
   end
-
 end

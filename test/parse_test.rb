@@ -1,5 +1,5 @@
 require 'minitest/autorun'
-require 'minitest/pride'
+require 'minitest/emoji'
 require './lib/parse'
 
 class ParseTest < Minitest::Test

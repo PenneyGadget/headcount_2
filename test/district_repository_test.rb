@@ -1,5 +1,5 @@
 require 'minitest/autorun'
-require 'minitest/pride'
+require 'minitest/emoji'
 require './lib/district_repository'
 
 class DistrictRepositoryTest < Minitest::Test
@@ -20,6 +20,10 @@ class DistrictRepositoryTest < Minitest::Test
     dr.load_data({:enrollment => {:kindergarten => "./test/fixtures/Kindergartners in full-day program fixture.csv"}})
 
     assert_equal nil, dr.find_by_name("Zombies")
+  end
+
+  def test_find_by_name_returns_a_single_instance_of_district
+
   end
 
   def test_find_all_matching_returns_one_district_name_match

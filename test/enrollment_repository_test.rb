@@ -1,5 +1,5 @@
 require 'minitest/autorun'
-require 'minitest/pride'
+require 'minitest/emoji'
 require './lib/enrollment_repository'
 
 class EnrollmentRepositoryTest < Minitest::Test
