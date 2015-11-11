@@ -2,14 +2,12 @@ require_relative 'district'
 require_relative 'enrollment_repository'
 require_relative 'statewide_testing_repository'
 require_relative 'economic_profile_repository'
-require_relative 'parse'
 require 'pry'
 
 class DistrictRepository
-  attr_reader :data, :districts
+  attr_reader :districts
 
   def initialize
-    @parser = Parse.new
     @districts = {}
     @enrollment_repo = EnrollmentRepository.new
     @statewide_testing_repo = StatewideTestingRepository.new
@@ -45,9 +43,9 @@ class DistrictRepository
 
   def load_data(hash)
     hash.each_key do | k |
-      @enrollment_repo.load_data(hash[k]) if k == :enrollment
-      @statewide_testing_repo.load_data(hash[k]) if k == :statewide_testing
-      @economic_profile_repo.load_data(hash[k]) if k == :economic_profile
+      @enrollment_repo.load_data(hash) if k == :enrollment
+      @statewide_testing_repo.load_data(hash) if k == :statewide_testing
+      @economic_profile_repo.load_data(hash) if k == :economic_profile
     end
   end
 
