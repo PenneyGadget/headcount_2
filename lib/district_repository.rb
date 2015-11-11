@@ -1,4 +1,7 @@
 require_relative 'district'
+require_relative 'enrollment_repository'
+require_relative 'statewide_testing_repository'
+require_relative 'economic_profile_repository'
 require_relative 'parse'
 require 'pry'
 
@@ -7,43 +10,45 @@ class DistrictRepository
 
   def initialize
     @parser = Parse.new
-    @data = {}
-    @districts = []
+    @districts = {}
+    @enrollment_repo = EnrollmentRepository.new
+    @statewide_testing_repo = StatewideTestingRepository.new
+    @economic_profile_repo = EconomicProfileRepository.new
+    build_districts
+  end
+
+  def build_districts
+    CSV.open("./data/Kindergartners in full-day program.csv", headers: true).each do |row|
+      if @districts.keys.include?(row["Location"].upcase)
+        next
+      else
+        row_data = {row["Location"].upcase => District.new(row["Location"].upcase)}
+        @districts = @districts.merge(row_data)
+      end
+    end
   end
 
   def find_by_name(district)
-    if @districts.include?(district.upcase)
-      return district.upcase
+    if @districts.keys.include?(district.to_s.upcase)
+      return @districts[district.upcase]
     else
       return nil
     end
   end
 
   def find_all_matching(string)
-    matches = @districts.collect do | district |
-      district if district.include?(string.upcase)
+    matches = @districts.map do | name, object |
+      name if name.include?(string.to_s.upcase)
     end
-    matches.compact.length == 0 ? [] : matches.compact
+    matches.length == 0 ? [] : matches.compact
   end
 
-  def load_data(path)
-    CSV.open(path, headers: true).each do |row|
-      row_data =
-
-  # def load_data(hash)
-  #   key = hash.map{ |k, v| v.map{ |k, v| k }}.flatten[0]
-  #   value = hash.map { |k, v| v.map { |k, v| v }}.flatten[0]
-  #   populate_districts(value)
-  #   @data[key] = @parser.parse(value)
-  # end
-
-  def populate_districts(value)
-    csv_table = @parser.parse(value)
-    csv_table.each { |row| @districts << row[:location].upcase }
-    @districts.uniq!
+  def load_data(hash)
+    hash.each_key do | k |
+      @enrollment_repo.load_data(hash[k]) if k == :enrollment
+      @statewide_testing_repo.load_data(hash[k]) if k == :statewide_testing
+      @economic_profile_repo.load_data(hash[k]) if k == :economic_profile
+    end
   end
+
 end
-
-dr = DistrictRepository.new
-dr.load_data({:enrollment => {:kindergarten => "./test/fixtures/Kindergartners in full-day program fixture.csv"}})
-districts = dr.find_all_matching("ca")
