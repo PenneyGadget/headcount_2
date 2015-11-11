@@ -90,5 +90,9 @@ class DistrictRepositoryTest < Minitest::Test
                  "ELBERT 200", "WELDON VALLEY RE-20(J)"], district
   end
 
+  def test_load_data_method
+    skip
+  end
+
 
 end
