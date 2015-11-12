@@ -24,14 +24,14 @@ class EnrollmentRepository
     parser = EnrollmentParser.new
     hash.each do | k, v |
       if k == :enrollment
-        parser.parse(hash)
+        parser.kindergarten_participation_parser(hash)
       end
     end
   end
 
 end
 
-# if __FILE__ == $PROGRAM_NAME
+if __FILE__ == $PROGRAM_NAME
   er = EnrollmentRepository.new
   data = er.load_data({:enrollment => {:kindergarten => "./test/fixtures/Kindergartners in full-day program fixture.csv"}})
-# end
+end

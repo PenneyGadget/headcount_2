@@ -8,4 +8,10 @@ class EnrollmentTest < Minitest::Test
     assert Enrollment.new
   end
 
+  def test_truncate_number_method_works
+    skip
+    e = Enrollment.new()
+
+  end
+
 end
