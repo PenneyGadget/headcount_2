@@ -6,10 +6,16 @@ require 'pry'
 
 class EnrollmentRepository
 
-  attr_reader :enrollments
+  attr_reader :dr, :enrollments
 
-  def initialize
+  def initialize(dr = nil)
     @enrollments = {}
+    @dr = dr
+  end
+
+  def store_enrollment(district, file_key, enrollment)
+    merger = { district => { file_key => enrollment } }
+    @enrollments = @enrollments.merge(merger)
   end
 
   def find_by_name(district)
@@ -24,14 +30,9 @@ class EnrollmentRepository
     parser = EnrollmentParser.new
     hash.each do | k, v |
       if k == :enrollment
-        parser.kindergarten_participation_parser(hash)
+        parser.parser(hash)
       end
     end
   end
 
-end
-
-if __FILE__ == $PROGRAM_NAME
-  er = EnrollmentRepository.new
-  data = er.load_data({:enrollment => {:kindergarten => "./test/fixtures/Kindergartners in full-day program fixture.csv"}})
 end

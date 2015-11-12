@@ -5,7 +5,7 @@ require_relative 'economic_profile_repository'
 require 'pry'
 
 class DistrictRepository
-  attr_reader :districts
+  attr_reader :districts, :enrollment_repo, :statewide_testing_repo, :economic_profile_repo
 
   def initialize
     @districts = {}
