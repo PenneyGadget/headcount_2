@@ -25,9 +25,9 @@ end
   #   (number.to_f * 1000).to_i / 1000.0
   # end
 
-p = EnrollmentParser.new
-data = p.kindergarten_participation_parser({:enrollment => {:kindergarten => "./test/fixtures/Kindergartners in full-day program fixture.csv"}})
-
+# p = EnrollmentParser.new
+# data = p.kindergarten_participation_parser({:enrollment => {:kindergarten => "./test/fixtures/Kindergartners in full-day program fixture.csv"}})
+#
 
 # enrollments[:location] = line[:location]
 # enrollments[:timeframe] = line[:timeframe]
