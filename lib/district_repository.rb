@@ -17,7 +17,7 @@ class DistrictRepository
 
   def build_districts
     CSV.open("./data/Kindergartners in full-day program.csv", headers: true).each do |row|
-      if find_by_name(row["Location"].upcase) == true
+      if @districts.include?(find_by_name(row["Location"].upcase))
         next
       else
         @districts << District.new(row["Location"].upcase)

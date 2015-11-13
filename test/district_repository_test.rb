@@ -14,6 +14,10 @@ class DistrictRepositoryTest < Minitest::Test
     assert_equal 181, dr.districts.length
   end
 
+  def test_build_districts
+
+  end
+
   def test_find_by_name_is_case_insensitive
     dr = DistrictRepository.new
 
