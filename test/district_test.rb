@@ -1,18 +1,27 @@
 require 'minitest/autorun'
 require 'minitest/emoji'
 require './lib/district'
+require './lib/district_repository'
 
 class DistrictTest < Minitest::Test
 
+  def setup
+    @dr = DistrictRepository.new
+    @dr.load_data({:enrollment => {:kindergarten => "./test/fixtures/Kindergartners in full-day program fixture.csv"}})
+  end
+
   def test_district_class_exists
-    assert District.new({:name => "Colorado"})
+    assert District.new("Colorado")
   end
 
   def test_name_method_return_the_upcased_string_name_of_district
-    skip
-    d = District.new({:name => "Colorado"})
+    d = District.new("Colorado")
 
     assert_equal "COLORADO", d.name
+  end
+
+  def test_set_enrollment_method_returns_an_enrollment_object
+    assert_equal Enrollment, @dr.find_by_name("Colorado").enrollment.class
   end
 
 end
