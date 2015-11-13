@@ -3,20 +3,11 @@ require_relative 'enrollment'
 require_relative 'enrollment_repository'
 require_relative 'district_repository'
 require_relative 'district'
-
-# dr = DistrictRepository.new
-#
-# dr.enrollment_repo.load_data({:enrollment => {:kindergarten => "./test/fixtures/Kindergartners in full-day program fixture.csv"}})
-#
-# puts dr.enrollment_repo.enrollments.first.kindergarten_participation_in_year(2006)
+require_relative 'headcount_analyst'
 
 dr = DistrictRepository.new
+ha = HeadcountAnalyst.new(dr)
 
-dr.load_data({
-  :enrollment => {
-    :kindergarten => "./data/Kindergartners in full-day program.csv"
-  }
-})
-district = dr.find_by_name("ACADEMY 20")
+dr.enrollment_repo.load_data({:enrollment => {:kindergarten => "./data/Kindergartners in full-day program.csv"}})
 
-district.enrollment.kindergarten_participation_in_year(2010)
+puts ha.kindergarten_participation_rate_variation_trend("ACADEMY 20", :against => "COLORADO")
