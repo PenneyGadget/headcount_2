@@ -27,7 +27,7 @@ class DistrictRepository
 
   def find_by_name(district)
     @districts.each do | d |
-      if d.name == district.upcase
+      if d.name == district.to_s.upcase
         return d
       end
     end
