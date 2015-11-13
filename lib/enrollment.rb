@@ -18,8 +18,8 @@ class Enrollment
   end
 
   def kindergarten_participation_in_year(year)
-    if @data[:kindergarten_participation].include?(year.to_s)
-      truncate(@data[:kindergarten_participation][year.to_s])
+    if @data[:kindergarten_participation].include?(year)
+      truncate(@data[:kindergarten_participation][year])
     else
       return nil
     end
