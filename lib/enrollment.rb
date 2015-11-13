@@ -1,3 +1,5 @@
+require 'pry'
+
 class Enrollment
   attr_reader :data
 
@@ -10,10 +12,17 @@ class Enrollment
   end
 
   def kindergarten_participation_by_year
+    @data[:kindergarten_participation].each do |k, v|
+      @data[:kindergarten_participation][k] = truncate(v)
+    end
   end
 
   def kindergarten_participation_in_year(year)
-
+    if @data[:kindergarten_participation].include?(year.to_s)
+      truncate(@data[:kindergarten_participation][year.to_s])
+    else
+      return nil
+    end
   end
 
   def truncate(number)
