@@ -6,5 +6,3 @@ class District
     @name = name.upcase
   end
 end
-
-# d = District.new({:name => "ACADEMY 20"})

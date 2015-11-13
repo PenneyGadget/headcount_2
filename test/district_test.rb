@@ -9,6 +9,7 @@ class DistrictTest < Minitest::Test
   end
 
   def test_name_method_return_the_upcased_string_name_of_district
+    skip
     d = District.new({:name => "Colorado"})
 
     assert_equal "COLORADO", d.name

@@ -6,28 +6,25 @@ require 'pry'
 
 class EnrollmentRepository
 
-  attr_reader :dr, :enrollments
+  attr_reader :enrollments
 
-  def initialize(dr = nil)
-    @enrollments = {}
-    @dr = dr
+  def initialize
+    @enrollments = []
   end
 
-  def store_enrollment(district, file_key, enrollment)
-    merger = { district => { file_key => enrollment } }
-    @enrollments = @enrollments.merge(merger)
+  def store_enrollment(data)
+    e = Enrollment.new(data)
+    @enrollments << Enrollment.new(data)
   end
 
   def find_by_name(district)
-    if @enrollments.keys.include?(district.to_s.upcase)
-      return @enrollments[district.upcase]
-    else
-      return nil
+    @enrollments.select do |enrollment|
+      enrollment.name == district
     end
   end
 
   def load_data(hash)
-    parser = EnrollmentParser.new
+    parser = EnrollmentParser.new(self)
     hash.each do | k, v |
       if k == :enrollment
         parser.parser(hash)

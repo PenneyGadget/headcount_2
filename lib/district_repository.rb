@@ -29,7 +29,7 @@ class DistrictRepository
   def find_by_name(district)
     if @districts.keys.include?(district.to_s.upcase)
       return @districts[district.upcase]
-    else
+        else
       return nil
     end
   end

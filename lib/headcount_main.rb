@@ -6,10 +6,17 @@ require_relative 'district'
 
 dr = DistrictRepository.new
 
-p = EnrollmentParser.new(dr.enrollment_repo)
-p.parser({:enrollment => {:kindergarten => "./test/fixtures/Kindergartners in full-day program fixture.csv"}})
+dr.enrollment_repo.load_data({:enrollment => {:kindergarten => "./test/fixtures/Kindergartners in full-day program fixture.csv"}})
 
-er = EnrollmentRepository.new
-data = er.load_data({:enrollment => {:kindergarten => "./test/fixtures/Kindergartners in full-day program fixture.csv"}})
+dr.enrollment_repo.enrollments.each do |enrollment|
+  puts "Individual enrollment: #{enrollment} with data : #{enrollment.data}"
+end
 
-er.enrollments["ACADEMY 20"]["kindergarten_participation"].kindergarten_participation_by_year
+#p = EnrollmentParser.new(dr.enrollment_repo)
+#p.parser({:enrollment => {:kindergarten => "./test/fixtures/Kindergartners in full-day program fixture.csv"}})
+
+# dr.enrollment_repo.enrollments.each do |enrollment|
+#   puts "Name: #{enrollment.name}"
+#   puts "Data: #{enrollment.data}"
+#   puts "*************************"
+# end

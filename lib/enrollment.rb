@@ -1,12 +1,15 @@
-
 class Enrollment
+  attr_reader :data
 
   def initialize(data)
     @data = data
   end
 
+  def name
+    @data[:name]
+  end
+
   def kindergarten_participation_by_year
-    puts @data
   end
 
   def kindergarten_participation_in_year(year)
