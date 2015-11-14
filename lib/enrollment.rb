@@ -7,7 +7,7 @@ class Enrollment
   def initialize(data)
     @data = data
   end
-
+  
   def name
     @data[:name]
   end

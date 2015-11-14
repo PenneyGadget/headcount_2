@@ -13,9 +13,9 @@ class Formatter
   end
 
   def distribute(hash)
-    hash.each do | category, v |
-      hash[category].each do | tag, path |
-        formatted = call_formatter(tag, @parser.parse(path))
+    hash.each do | category, path_hash |
+      hash[category].each do | file_tag, path |
+        formatted = call_formatter(file_tag, @parser.parse(path))
         formatted.each do | formatted_hash |
           package(category, formatted_hash)
         end
@@ -23,8 +23,8 @@ class Formatter
     end
   end
 
-  def call_formatter(tag, parsed_data)
-    method(@formatters[tag]).call(parsed_data)
+  def call_formatter(file_tag, parsed_data)
+    method(@formatters[file_tag]).call(parsed_data)
   end
 
   def package(category, formatted_hash)
@@ -44,19 +44,24 @@ class Formatter
   end
 
   def kindergarten_formatter(parsed_data)
-    prepped_hashes = parsed_data.map do | dist_name, dist_rows |
+    formatted = parsed_data.map do | dist_name, dist_rows |
       {:name => dist_name,
        :kindergarten_participation => extract_years_from_district_rows(dist_rows)}
     end
-    prepped_hashes
+    formatted
   end
 
   def high_school_graduation_formatter(parsed_data)
-    prepped_hashes = parsed_data.map do | dist_name, dist_rows |
+    formatted = parsed_data.map do | dist_name, dist_rows |
       {:name => dist_name,
        :high_school_graduation => extract_years_from_district_rows(dist_rows)}
     end
-    prepped_hashes
+    formatted
   end
 
 end
+
+
+
+
+

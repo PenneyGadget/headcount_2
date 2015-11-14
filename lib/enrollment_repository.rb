@@ -11,13 +11,17 @@ class EnrollmentRepository
   end
 
   def store_enrollment(data)
-    enroll = Enrollment.new(data)
-    @dr.find_by_name(enroll.name).set_enrollment(enroll)
-    @enrollments << enroll
+    if find_by_name(data[:name])
+      find_by_name(data[:name]).data.merge!(data)
+    else
+      enroll = Enrollment.new(data)
+      @dr.find_by_name(enroll.name).set_enrollment(enroll)
+      @enrollments << enroll
+    end
   end
 
   def find_by_name(district)
-    @enrollments.each do |enrollment|
+    @enrollments.each do | enrollment |
       return enrollment if enrollment.name.upcase == district.to_s.upcase
     end
     nil
@@ -28,3 +32,15 @@ class EnrollmentRepository
   end
 
 end
+
+
+
+
+
+
+# Oops, what the fuck did I do?
+#   def store_enrollment(data)
+#     enroll = Enrollment.new(data)
+#     @dr.find_by_name(enroll.name).set_enrollment(enroll)
+#     @enrollments << enroll
+#   end
