@@ -8,7 +8,7 @@ class EnrollmentRepository
 
   attr_reader :enrollments
 
-  def initialize(dr=nil)
+  def initialize(dr = nil)
     @enrollments = []
     @dr = dr
   end
@@ -20,9 +20,10 @@ class EnrollmentRepository
   end
 
   def find_by_name(district)
-    @enrollments.select do |enrollment|
-      enrollment.name == district
+    @enrollments.each do |enrollment|
+      return enrollment if enrollment.name.upcase == district.to_s.upcase
     end
+    nil
   end
 
   def load_data(hash)

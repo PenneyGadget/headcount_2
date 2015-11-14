@@ -38,16 +38,4 @@ class EnrollmentParser
     end
   end
 
-  # def find_number_of_lines(hash)
-  #   line_counter = 0
-  #   hash.each do |key, val|
-  #     hash[key].each do |key2, val2|
-  #       CSV.read(val2, {headers: true, header_converters: :symbol}).each do |row|
-  #         line_counter += 1
-  #       end
-  #     end
-  #   end
-  #   line_counter
-  # end
-
 end

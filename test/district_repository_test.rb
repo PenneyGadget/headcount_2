@@ -1,4 +1,4 @@
-require 'minitest/autorun'
+ require 'minitest/autorun'
 require 'minitest/emoji'
 require './lib/district_repository'
 
