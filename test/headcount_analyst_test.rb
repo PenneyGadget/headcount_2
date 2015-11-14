@@ -8,7 +8,11 @@ class HeadcountAnalystTest < Minitest::Test
   def setup
     @dr = DistrictRepository.new
     @ha = HeadcountAnalyst.new(@dr)
-    @dr.load_data({:enrollment => {:kindergarten => "./test/fixtures/Kindergartners in full-day program fixture.csv"}})
+    @dr.load_data({ :enrollment =>
+                    { :kindergarten =>           "./data/Kindergartners in full-day program.csv",
+                      :high_school_graduation => "./data/High school graduation rates.csv"
+                    }
+                  })
   end
 
   def test_headcount_class_exists
@@ -28,11 +32,15 @@ class HeadcountAnalystTest < Minitest::Test
   end
 
   def test_get_kp_data_grabs_the_proper_raw_data
-    assert_equal [0.21756], @ha.get_kp_data(@dr.find_by_name("CANON CITY RE-1"))
+    assert_equal [0.21756, 0.11923, 0.35254,
+                  0.30224, 0.7658, 0.98,
+                  0.99327, 0.993, 1.0, 1.0, 1.0], @ha.get_kp_data(@dr.find_by_name("CANON CITY RE-1"))
   end
 
   def test_get_kp_data_with_year_grabs_the_proper_raw_data
-    assert_equal({"2007"=>0.21756}, @ha.get_kp_data_with_year(@dr.find_by_name("CANON CITY RE-1")))
+    assert_equal({"2007"=>0.21756, "2006"=>0.11923, "2005"=>0.35254,
+                  "2004"=>0.30224, "2008"=>0.7658, "2009"=>0.98,
+                  "2010"=>0.99327, "2011"=>0.993, "2012"=>1.0, "2013"=>1.0, "2014"=>1.0}, @ha.get_kp_data_with_year(@dr.find_by_name("CANON CITY RE-1")))
   end
 
   def test_get_avg_method_does_the_maths_right
@@ -41,7 +49,7 @@ class HeadcountAnalystTest < Minitest::Test
     assert_equal 6.6425, @ha.get_avg(data)
   end
 
-  def test_truncate_method_also_does_the_math_thing_correct
+  def test_truncate_method_also_does_the_math_thing_correctly
     number = 0.38759
 
     assert_equal 0.387, @ha.truncate(number)

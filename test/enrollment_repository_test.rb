@@ -6,8 +6,12 @@ class EnrollmentRepositoryTest < Minitest::Test
 
   def setup
     @dr = DistrictRepository.new
-    @dr.load_data({:enrollment => {:kindergarten => "./test/fixtures/Kindergartners in full-day program fixture.csv"}})
     @er = @dr.enrollment_repo
+    @dr.load_data({ :enrollment =>
+                    { :kindergarten =>           "./data/Kindergartners in full-day program.csv",
+                      :high_school_graduation => "./data/High school graduation rates.csv"
+                    }
+                  })
   end
 
   def test_enrollment_repository_class_exists
@@ -27,13 +31,20 @@ class EnrollmentRepositoryTest < Minitest::Test
     assert_equal EnrollmentRepository, dr.enrollment_repo.class
   end
 
-  def test_store_enrollment_method_stores_our_enrollment_objects
+  def test_store_enrollment_method_stores_our_enrollment_objects_for_multiple_files
     assert_equal Enrollment, @er.enrollments[0].class
 
-    assert_equal "DELTA COUNTY 50(J)", @er.enrollments[-2].name
+    assert_equal "WRAY SCHOOL DISTRICT RD-2", @er.enrollments[-2].name
 
-    assert_equal({:name=>"GUNNISON WATERSHED RE1J",
-                  :kindergarten_participation=>{"2006"=>"0.13514"}}, @er.enrollments[-1].data)
+    assert_equal({:name => "YUMA SCHOOL DISTRICT 1",
+                  :kindergarten_participation => { "2007"=>"1", "2006"=>"1", "2005"=>"1",
+                                                   "2004"=>"0", "2008"=>"1", "2009"=>"1",
+                                                   "2010"=>"1", "2011"=>"1", "2012"=>"1",
+                                                   "2013"=>"1", "2014"=>"1" },
+                  :high_school_graduation =>     { "2010"=>"0.903", "2011"=>"0.891",
+                                                   "2012"=>"0.85455", "2013"=>"0.88333",
+                                                   "2014"=>"0.91" }
+                  }, @er.enrollments[-1].data)
   end
 
   def test_first_and_last_enrollment_objects_are_not_the_same_object

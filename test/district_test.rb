@@ -6,7 +6,11 @@ class DistrictTest < Minitest::Test
 
   def setup
     @dr = DistrictRepository.new
-    @dr.load_data({:enrollment => {:kindergarten => "./test/fixtures/Kindergartners in full-day program fixture.csv"}})
+    @dr.load_data({ :enrollment =>
+                    { :kindergarten =>           "./data/Kindergartners in full-day program.csv",
+                      :high_school_graduation => "./data/High school graduation rates.csv"
+                    }
+                  })
   end
 
   def test_district_class_exists

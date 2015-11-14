@@ -60,8 +60,3 @@ class Formatter
   end
 
 end
-
-
-
-
-

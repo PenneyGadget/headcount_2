@@ -15,8 +15,19 @@ class ParserTest < Minitest::Test
   end
 
   def test_that_parser_groups_by_location
-    by_location = @parser.parse("./test/fixtures/Kindergartners in full-day program fixture.csv")
-    assert_equal [{:location=>"BRIGHTON 27J", :timeframe=>"2009", :dataformat=>"Percent", :data=>"0.2"}], by_location["BRIGHTON 27J"]
+    by_location = @parser.parse("./data/Kindergartners in full-day program.csv")
+
+    assert_equal [{:location=>"BRIGHTON 27J", :timeframe=>"2007", :dataformat=>"Percent", :data=>"0.23818"},
+                  {:location=>"BRIGHTON 27J", :timeframe=>"2006", :dataformat=>"Percent", :data=>"0.0596"},
+                  {:location=>"BRIGHTON 27J", :timeframe=>"2005", :dataformat=>"Percent", :data=>"0.06289"},
+                  {:location=>"BRIGHTON 27J", :timeframe=>"2004", :dataformat=>"Percent", :data=>"0.03559"},
+                  {:location=>"BRIGHTON 27J", :timeframe=>"2008", :dataformat=>"Percent", :data=>"0.22484"},
+                  {:location=>"BRIGHTON 27J", :timeframe=>"2009", :dataformat=>"Percent", :data=>"0.2"},
+                  {:location=>"BRIGHTON 27J", :timeframe=>"2010", :dataformat=>"Percent", :data=>"0.32329"},
+                  {:location=>"BRIGHTON 27J", :timeframe=>"2011", :dataformat=>"Percent", :data=>"0.345"},
+                  {:location=>"BRIGHTON 27J", :timeframe=>"2012", :dataformat=>"Percent", :data=>"0.45649"},
+                  {:location=>"BRIGHTON 27J", :timeframe=>"2013", :dataformat=>"Percent", :data=>"0.57684"},
+                  {:location=>"BRIGHTON 27J", :timeframe=>"2014", :dataformat=>"Percent", :data=>"0.71988"}], by_location["BRIGHTON 27J"]
   end
 
 end
