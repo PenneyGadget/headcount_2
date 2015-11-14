@@ -1,17 +1,24 @@
+require 'pry'
 require_relative 'district'
 require_relative 'enrollment_repository'
+require_relative 'enrollment'
 require_relative 'statewide_testing_repository'
+require_relative 'statewide_testing'
 require_relative 'economic_profile_repository'
-require 'pry'
+require_relative 'economic_profile'
+require_relative 'parser'
+require_relative 'formatter'
 
 class DistrictRepository
-  attr_reader :districts, :enrollment_repo, :statewide_testing_repo, :economic_profile_repo
+
+  attr_reader :districts, :enrollment_repo, :statewide_testing_repo, :economic_profile_repo, :formatter
 
   def initialize
     @districts = []
     @enrollment_repo = EnrollmentRepository.new(self)
     @statewide_testing_repo = StatewideTestingRepository.new(self)
     @economic_profile_repo = EconomicProfileRepository.new(self)
+    @formatter = Formatter.new(self)
     build_districts
   end
 
@@ -42,11 +49,7 @@ class DistrictRepository
   end
 
   def load_data(hash)
-    hash.each_key do | k |
-      @enrollment_repo.load_data(hash) if k == :enrollment
-      @statewide_testing_repo.load_data(hash) if k == :statewide_testing
-      @economic_profile_repo.load_data(hash) if k == :economic_profile
-    end
+    @formatter.distribute(hash)
   end
 
 end

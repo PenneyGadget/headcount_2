@@ -1,8 +1,5 @@
-require_relative 'district_repository'
-require_relative 'enrollment'
-require_relative 'enrollment_parser'
 require 'pry'
-
+require_relative 'district_repository'
 
 class EnrollmentRepository
 
@@ -27,12 +24,7 @@ class EnrollmentRepository
   end
 
   def load_data(hash)
-    parser = EnrollmentParser.new(self)
-    hash.each do | k, v |
-      if k == :enrollment
-        parser.parser(hash)
-      end
-    end
+    @dr.formatter.distribute(hash)
   end
 
 end

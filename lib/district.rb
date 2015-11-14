@@ -1,5 +1,7 @@
+require 'pry'
 
 class District
+
   attr_reader :name, :enrollment
 
   def initialize(name)

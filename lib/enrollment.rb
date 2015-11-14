@@ -1,6 +1,7 @@
 require 'pry'
 
 class Enrollment
+
   attr_reader :data
 
   def initialize(data)
@@ -12,7 +13,7 @@ class Enrollment
   end
 
   def kindergarten_participation_by_year
-    @data[:kindergarten_participation].each do |k, v|
+    @data[:kindergarten_participation].each do | k, v |
       @data[:kindergarten_participation][k] = truncate(v)
     end
   end

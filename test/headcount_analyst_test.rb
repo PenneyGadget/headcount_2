@@ -1,5 +1,6 @@
 require 'minitest/autorun'
 require 'minitest/emoji'
+require './lib/district_repository'
 require './lib/headcount_analyst'
 
 class HeadcountAnalystTest < Minitest::Test
@@ -8,7 +9,6 @@ class HeadcountAnalystTest < Minitest::Test
     @dr = DistrictRepository.new
     @ha = HeadcountAnalyst.new(@dr)
     @dr.load_data({:enrollment => {:kindergarten => "./test/fixtures/Kindergartners in full-day program fixture.csv"}})
-    @er = @dr.enrollment_repo
   end
 
   def test_headcount_class_exists

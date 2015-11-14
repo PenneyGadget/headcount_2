@@ -1,6 +1,5 @@
 require 'minitest/autorun'
 require 'minitest/emoji'
-require './lib/district'
 require './lib/district_repository'
 
 class DistrictTest < Minitest::Test

@@ -20,7 +20,7 @@ class EnrollmentRepositoryTest < Minitest::Test
     assert_equal [], er.enrollments
   end
 
-  def test_enrollment_repository_is_initialized_with_our_districts
+  def test_enrollment_repository_is_initialized_with_our_district_repo
     dr = DistrictRepository.new
 
     assert dr.enrollment_repo
@@ -37,7 +37,7 @@ class EnrollmentRepositoryTest < Minitest::Test
   end
 
   def test_first_and_last_enrollment_objects_are_not_the_same_object
-    refute_equal @er.enrollments[0].data, @er.enrollments[-1].data
+    refute_equal @er.enrollments[0].object_id, @er.enrollments[-1].object_id
   end
 
   def test_find_by_name_method_returns_nil_with_an_invalid_name
@@ -56,11 +56,6 @@ class EnrollmentRepositoryTest < Minitest::Test
 
   def test_find_by_name_is_case_insensitive
     assert_equal "Colorado", @er.find_by_name("ColORADo").name
-  end
-
-  def test_load_data_method_chooses_the_correct_key
-    assert_equal [:enrollment], @er.load_data({:enrollment =>
-                                              {:kindergarten => "./test/fixtures/Kindergartners in full-day program fixture.csv"}}).keys
   end
 
 end
