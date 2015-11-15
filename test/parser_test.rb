@@ -30,4 +30,16 @@ class ParserTest < Minitest::Test
                   {:location=>"BRIGHTON 27J", :timeframe=>"2014", :dataformat=>"Percent", :data=>"0.71988"}], by_location["BRIGHTON 27J"]
   end
 
+  def test_clean_data_cleans_the_data
+    data = [{:location=>"EAST YUMA COUNTY RJ-2", :timeframe=>"2014", :dataformat=>"Percent", :data=>"NA"},
+            {:location=>"EATON RE-2", :timeframe=>"2010", :dataformat=>"Percent", :data=>"0.787"},
+            {:location=>"BRIGHTON 27J", :timeframe=>"2004", :dataformat=>"Percent", :data=>nil},
+            {:location=>"BRIGHTON 27J", :timeframe=>"2013", :dataformat=>"Percent", :data=>"0.57684"}]
+
+    cleaned_data = [{:location=>"EATON RE-2", :timeframe=>"2010", :dataformat=>"Percent", :data=>"0.787"},
+                  {:location=>"BRIGHTON 27J", :timeframe=>"2013", :dataformat=>"Percent", :data=>"0.57684"}]        
+    
+    assert_equal cleaned_data, @parser.clean_data(data)
+  end
+
 end
