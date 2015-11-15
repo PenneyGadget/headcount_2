@@ -26,7 +26,7 @@ class FormatterTest < Minitest::Test
   end
 
   def test_package_stores_all_unique_districts
-    assert_equal 181, @dr.enrollment_repo.enrollments.length
+    assert_equal 179, @dr.enrollment_repo.enrollments.length
   end
 
   def test_that_extract_years_method_extracts_raw_data

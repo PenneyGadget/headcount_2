@@ -8,6 +8,7 @@ require_relative 'economic_profile_repository'
 require_relative 'economic_profile'
 require_relative 'parser'
 require_relative 'formatter'
+require_relative 'headcount_analyst'
 
 class DistrictRepository
 

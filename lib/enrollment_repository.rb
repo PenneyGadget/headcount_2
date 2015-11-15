@@ -32,15 +32,3 @@ class EnrollmentRepository
   end
 
 end
-
-
-
-
-
-
-# Oops, what the fuck did I do?
-#   def store_enrollment(data)
-#     enroll = Enrollment.new(data)
-#     @dr.find_by_name(enroll.name).set_enrollment(enroll)
-#     @enrollments << enroll
-#   end

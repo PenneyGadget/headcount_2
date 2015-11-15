@@ -33,7 +33,6 @@ class EnrollmentRepositoryTest < Minitest::Test
 
   def test_store_enrollment_method_stores_our_enrollment_objects_for_multiple_files
     assert_equal Enrollment, @er.enrollments[0].class
-
     assert_equal "WRAY SCHOOL DISTRICT RD-2", @er.enrollments[-2].name
 
     assert_equal({:name => "YUMA SCHOOL DISTRICT 1",

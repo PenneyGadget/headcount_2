@@ -26,6 +26,20 @@ class Enrollment
     end
   end
 
+  def graduation_rate_by_year
+    @data[:high_school_graduation].each do | k, v |
+      @data[:high_school_graduation][k] = truncate(v)
+    end
+  end
+
+  def graduation_rate_in_year(year)
+    if @data[:high_school_graduation].include?(year)
+      truncate(@data[:high_school_graduation][year])
+    else
+      return nil
+    end
+  end
+
   def truncate(number)
     (number.to_f * 1000).to_i / 1000.0
   end
