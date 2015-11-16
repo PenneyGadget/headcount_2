@@ -1,5 +1,3 @@
-require 'pry'
-
 class District
 
   attr_reader :name, :enrollment, :statewide_test

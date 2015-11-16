@@ -1,5 +1,4 @@
 require 'pry'
-require_relative 'district_repository'
 
 class Formatter
 
@@ -49,7 +48,7 @@ class Formatter
     end
     years
   end
-    
+
   def kindergarten_formatter(parsed_data)
     formatted = parsed_data.map do | dist_name, dist_rows |
       {:name => dist_name,

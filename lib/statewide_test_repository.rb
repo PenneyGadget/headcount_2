@@ -1,5 +1,4 @@
 require 'pry'
-require_relative 'district_repository'
 
 class StatewideTestRepository
 
@@ -19,7 +18,7 @@ class StatewideTestRepository
       @statewide_tests << statewide_test
     end
   end
-  
+
   def find_by_name(district)
     @statewide_tests.each do | statewide_test |
       return statewide_test if statewide_test.name.upcase == district.to_s.upcase
