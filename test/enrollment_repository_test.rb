@@ -1,6 +1,6 @@
 require 'minitest/autorun'
 require 'minitest/emoji'
-require './lib/enrollment_repository'
+require './lib/district_repository'
 
 class EnrollmentRepositoryTest < Minitest::Test
 

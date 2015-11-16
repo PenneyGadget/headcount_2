@@ -8,7 +8,12 @@ class Formatter
     @parser = Parser.new
     @formatters = {
                     :kindergarten => :kindergarten_formatter,
-                    :high_school_graduation => :high_school_graduation_formatter
+                    :high_school_graduation => :high_school_graduation_formatter,
+                    :third_grade => :third_grade_formatter,
+                    :eighth_grade => :eighth_grade_formatter,
+                    :math => :math_formatter,
+                    :reading => :reading_formatter,
+                    :writing => :writing_formatter
                   }
   end
 
@@ -30,6 +35,8 @@ class Formatter
   def package(category, formatted_hash)
     if category == :enrollment
       @dr.enrollment_repo.store_enrollment(formatted_hash)
+    elsif category == :statewide_testing
+      @dr.statewide_test_repo.store_statewide_test(formatted_hash)
     end
   end
 
@@ -42,7 +49,7 @@ class Formatter
     end
     years
   end
-
+    
   def kindergarten_formatter(parsed_data)
     formatted = parsed_data.map do | dist_name, dist_rows |
       {:name => dist_name,
@@ -57,6 +64,46 @@ class Formatter
        :high_school_graduation => extract_years_from_district_rows(dist_rows)}
     end
     formatted
+  end
+
+  def third_grade_formatter(parsed_data)
+    formatted = parsed_data.map do | dist_name, dist_rows |
+      {:name => dist_name,
+       :third_grade => dist_rows}
+     end
+     formatted
+  end
+
+  def eighth_grade_formatter(parsed_data)
+    formatted = parsed_data.map do | dist_name, dist_rows |
+      {:name => dist_name,
+       :eighth_grade => dist_rows}
+     end
+     formatted
+  end
+
+  def math_formatter(parsed_data)
+    formatted = parsed_data.map do | dist_name, dist_rows |
+      {:name => dist_name,
+       :math => dist_rows}
+     end
+     formatted
+  end
+
+  def reading_formatter(parsed_data)
+    formatted = parsed_data.map do | dist_name, dist_rows |
+      {:name => dist_name,
+       :reading => dist_rows}
+     end
+     formatted
+  end
+
+  def writing_formatter(parsed_data)
+    formatted = parsed_data.map do | dist_name, dist_rows |
+      {:name => dist_name,
+       :writing => dist_rows}
+     end
+     formatted
   end
 
 end

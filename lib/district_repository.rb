@@ -2,8 +2,8 @@ require 'pry'
 require_relative 'district'
 require_relative 'enrollment_repository'
 require_relative 'enrollment'
-require_relative 'statewide_testing_repository'
-require_relative 'statewide_testing'
+require_relative 'statewide_test_repository'
+require_relative 'statewide_test'
 require_relative 'economic_profile_repository'
 require_relative 'economic_profile'
 require_relative 'parser'
@@ -12,12 +12,12 @@ require_relative 'headcount_analyst'
 
 class DistrictRepository
 
-  attr_reader :districts, :enrollment_repo, :statewide_testing_repo, :economic_profile_repo, :formatter
+  attr_reader :districts, :enrollment_repo, :statewide_test_repo, :economic_profile_repo, :formatter
 
   def initialize
     @districts = []
     @enrollment_repo = EnrollmentRepository.new(self)
-    @statewide_testing_repo = StatewideTestingRepository.new(self)
+    @statewide_test_repo = StatewideTestRepository.new(self)
     @economic_profile_repo = EconomicProfileRepository.new(self)
     @formatter = Formatter.new(self)
     build_districts

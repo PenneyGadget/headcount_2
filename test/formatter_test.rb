@@ -55,7 +55,87 @@ class FormatterTest < Minitest::Test
 
     expected = [{:name=>"ACADEMY 20", :high_school_graduation=>{"2011"=>"0.895", "2012"=>"0.88983", "2013"=>"0.91373"}}]
 
-    assert_equal expected, @formatter.high_school_graduation_formatter(parsed_data)
+    assert_equal expected, @formatter.high_school_graduation_formatter(parsed_data)   
+  end
+
+  def test_third_grade_formatter_formats_correctly
+    data = {"Colorado"=> [{:location=>"Colorado", :score=>"Math", :timeframe=>"2008", :dataformat=>"Percent", :data=>"0.697"},
+                          {:location=>"Colorado", :score=>"Reading", :timeframe=>"2008", :dataformat=>"Percent", :data=>"0.703"}]}
+
+    assert_equal [{:name=>"Colorado", :third_grade=>[{:location=>"Colorado",
+                                                      :score=>"Math",
+                                                      :timeframe=>"2008",
+                                                      :dataformat=>"Percent",
+                                                      :data=>"0.697"},
+                                                     {:location=>"Colorado",
+                                                      :score=>"Reading",
+                                                      :timeframe=>"2008",
+                                                      :dataformat=>"Percent",
+                                                      :data=>"0.703"}]}], @formatter.third_grade_formatter(data)
+  end
+  
+  def test_eighth_grade_formatter_formats_correctly
+    data = {"Colorado"=> [{:location=>"Colorado", :score=>"Math", :timeframe=>"2008", :dataformat=>"Percent", :data=>"0.697"},
+                          {:location=>"Colorado", :score=>"Reading", :timeframe=>"2008", :dataformat=>"Percent", :data=>"0.703"}]}
+
+    assert_equal [{:name=>"Colorado", :eighth_grade=>[{:location=>"Colorado",
+                                                      :score=>"Math",
+                                                      :timeframe=>"2008",
+                                                      :dataformat=>"Percent",
+                                                      :data=>"0.697"},
+                                                     {:location=>"Colorado",
+                                                      :score=>"Reading",
+                                                      :timeframe=>"2008",
+                                                      :dataformat=>"Percent",
+                                                      :data=>"0.703"}]}], @formatter.eighth_grade_formatter(data)
+  end
+
+  def test_math_formatter_formats_correctly
+    data = {"Colorado"=> [{:location=>"Colorado", :score=>"Math", :timeframe=>"2008", :dataformat=>"Percent", :data=>"0.697"},
+                          {:location=>"Colorado", :score=>"Reading", :timeframe=>"2008", :dataformat=>"Percent", :data=>"0.703"}]}
+
+    assert_equal [{:name=>"Colorado", :math=>[{:location=>"Colorado",
+                                                      :score=>"Math",
+                                                      :timeframe=>"2008",
+                                                      :dataformat=>"Percent",
+                                                      :data=>"0.697"},
+                                                     {:location=>"Colorado",
+                                                      :score=>"Reading",
+                                                      :timeframe=>"2008",
+                                                      :dataformat=>"Percent",
+                                                      :data=>"0.703"}]}], @formatter.math_formatter(data)
+  end
+
+  def test_reading_formatter_formats_correctly
+    data = {"Colorado"=> [{:location=>"Colorado", :score=>"Math", :timeframe=>"2008", :dataformat=>"Percent", :data=>"0.697"},
+                          {:location=>"Colorado", :score=>"Reading", :timeframe=>"2008", :dataformat=>"Percent", :data=>"0.703"}]}
+
+    assert_equal [{:name=>"Colorado", :reading=>[{:location=>"Colorado",
+                                                      :score=>"Math",
+                                                      :timeframe=>"2008",
+                                                      :dataformat=>"Percent",
+                                                      :data=>"0.697"},
+                                                     {:location=>"Colorado",
+                                                      :score=>"Reading",
+                                                      :timeframe=>"2008",
+                                                      :dataformat=>"Percent",
+                                                      :data=>"0.703"}]}], @formatter.reading_formatter(data)
+  end
+
+  def test_writing_formatter_formats_correctly
+    data = {"Colorado"=> [{:location=>"Colorado", :score=>"Math", :timeframe=>"2008", :dataformat=>"Percent", :data=>"0.697"},
+                          {:location=>"Colorado", :score=>"Reading", :timeframe=>"2008", :dataformat=>"Percent", :data=>"0.703"}]}
+
+    assert_equal [{:name=>"Colorado", :writing=>[{:location=>"Colorado",
+                                                      :score=>"Math",
+                                                      :timeframe=>"2008",
+                                                      :dataformat=>"Percent",
+                                                      :data=>"0.697"},
+                                                     {:location=>"Colorado",
+                                                      :score=>"Reading",
+                                                      :timeframe=>"2008",
+                                                      :dataformat=>"Percent",
+                                                      :data=>"0.703"}]}], @formatter.writing_formatter(data)
   end
 
 end
