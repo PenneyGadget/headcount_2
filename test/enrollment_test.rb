@@ -1,14 +1,17 @@
 require 'minitest/autorun'
 require 'minitest/emoji'
 require './lib/district_repository'
-require './lib/enrollment'
 
 class EnrollmentTest < Minitest::Test
 
   def setup
-    @data = {:name => "ACADEMY 20", :kindergarten_participation => {2010 => 0.3915, 2011 => 0.35356, 2012 => 0.2677},
-                                    :high_school_graduation     => {2010 => 0.895, 2011 => 0.895, 2012 => 0.88983, 2013 => 0.91373, 2014 => 0.898} }
-    @enrollment = Enrollment.new(@data)
+    @dr = DistrictRepository.new
+    @er = @dr.enrollment_repo
+    @er.load_data({:enrollment => {:kindergarten => "./data/Kindergartners in full-day program.csv",
+                                       :high_school_graduation => "./data/High school graduation rates.csv"
+                                      }
+                      })
+    @enrollment = @er.find_by_name("ACADEMY 20")
   end
 
   def test_enrollment_class_exists
@@ -24,21 +27,23 @@ class EnrollmentTest < Minitest::Test
   end
 
   def test_kindergarten_participation_by_year_returns_a_data_hash_with_3_digit_floats
-    expected = {2010=>0.391, 2011=>0.353, 2012=>0.267}
+    expected = {2007=>0.391, 2006=>0.353, 2005=>0.267, 2004=>0.302, 
+                2008=>0.384, 2009=>0.39, 2010=>0.436, 2011=>0.489, 
+                2012=>0.478, 2013=>0.487, 2014=>0.49}
 
     assert_equal expected, @enrollment.kindergarten_participation_by_year
   end
 
   def test_kindergarten_participation_in_year_returns_a_3_digit_float
-    assert_equal 0.353, @enrollment.kindergarten_participation_in_year(2011)
+    assert_equal 0.489, @enrollment.kindergarten_participation_in_year(2011)
   end
 
   def test_kindergarten_participation_in_year_returns_nil_with_an_unknown_year
-    assert_equal nil, @enrollment.kindergarten_participation_in_year(2008)
+    assert_equal nil, @enrollment.kindergarten_participation_in_year(2000)
   end
 
   def test_kindergarten_participation_in_year_returns_nil_with_an_invalid_format_year
-    assert_equal nil, @enrollment.kindergarten_participation_in_year("2012")
+    assert_equal nil, @enrollment.kindergarten_participation_in_year("2002")
   end
 
   def test_high_school_graduation_by_year_returns_a_data_hash_with_3_digit_floats

@@ -42,9 +42,9 @@ class Formatter
 
   def extract_years_from_district_rows(rows)
     years = {}
-    rows.each do |hash|
-      year = hash[:timeframe]
-      data = hash[:data]
+    rows.each do | hash |
+      year = hash[:timeframe].to_i
+      data = hash[:data].to_f
       years[year] = data
     end
     years

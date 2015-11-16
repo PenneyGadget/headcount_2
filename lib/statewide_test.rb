@@ -14,8 +14,8 @@ class StatewideTest
 
   def proficient_by_grade(grade)
     if grade_is_valid(grade)
-      return proficient_by_grade_third if grade == 3
-      return proficient_by_grade_eighth if grade == 8
+      return query_hash_by_three(@data[:third_grade], :timeframe, [{:score => :data}]) if grade == 3
+      return query_hash_by_three(@data[:eighth_grade], :timeframe, [{:score => :data}]) if grade == 8
     end
   end
 
@@ -23,14 +23,6 @@ class StatewideTest
     return @data.has_key?(:third_grade) if grade == 3
     return @data.has_key?(:eighth_grade) if grade == 8
     raise "UnknownDataError"
-  end
-
-  def proficient_by_grade_third
-    query_hash_by_three(@data[:third_grade], :timeframe, [{:score => :data}])
-  end   
-
-  def proficient_by_grade_eighth
-    query_hash_by_three(@data[:eighth_grade], :timeframe, [{:score => :data}])
   end
 
   def proficient_by_race_or_ethnicity(race_or_ethnicity)
@@ -52,7 +44,7 @@ class StatewideTest
     hash_array.each do | hash_row |
       columns.each do | col |
         col.each do | key, value |
-          return_hash = return_hash.merge({ hash_row[group_by] => { hash_row[key] => truncate(hash_row[value]) }}) { |k, v1, v2| v1.merge(v2) }
+          return_hash = return_hash.merge({ hash_row[group_by].to_i => { hash_row[key].downcase.to_sym => truncate(hash_row[value]) }}) { |k, v1, v2| v1.merge(v2) }
         end
       end
     end
@@ -65,7 +57,7 @@ class StatewideTest
       columns.each do | col |
         col.each do | key, value |
           if hash_row[:race_ethnicity].downcase == race.to_s
-            return_hash = return_hash.merge({ hash_row[group_by] => { subject => truncate(hash_row[value]) }}) { |k, v1, v2| v1.merge(v2) }
+            return_hash = return_hash.merge({ hash_row[group_by].to_i => { subject => truncate(hash_row[value]) }}) { |k, v1, v2| v1.merge(v2) }
           end
         end
       end

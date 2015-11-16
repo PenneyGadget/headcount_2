@@ -36,13 +36,13 @@ class EnrollmentRepositoryTest < Minitest::Test
     assert_equal "WRAY SCHOOL DISTRICT RD-2", @er.enrollments[-2].name
 
     assert_equal({:name => "YUMA SCHOOL DISTRICT 1",
-                  :kindergarten_participation => { "2007"=>"1", "2006"=>"1", "2005"=>"1",
-                                                   "2004"=>"0", "2008"=>"1", "2009"=>"1",
-                                                   "2010"=>"1", "2011"=>"1", "2012"=>"1",
-                                                   "2013"=>"1", "2014"=>"1" },
-                  :high_school_graduation =>     { "2010"=>"0.903", "2011"=>"0.891",
-                                                   "2012"=>"0.85455", "2013"=>"0.88333",
-                                                   "2014"=>"0.91" }
+                  :kindergarten_participation => { 2007=>1, 2006=>1, 2005=>1,
+                                                   2004=>0, 2008=>1, 2009=>1,
+                                                   2010=>1, 2011=>1, 2012=>1,
+                                                   2013=>1, 2014=>1 },
+                  :high_school_graduation =>     { 2010=>0.903, 2011=>0.891,
+                                                   2012=>0.85455, 2013=>0.88333,
+                                                   2014=>0.91 }
                   }, @er.enrollments[-1].data)
   end
 

@@ -17,7 +17,7 @@ str.load_data({
 })
 
 
-
+puts dr.statewide_test_repo.find_by_name("ACADEMY 20").proficient_by_grade(3)
 puts dr.statewide_test_repo.find_by_name("ACADEMY 20").proficient_by_race_or_ethnicity(:asian)
 
 
