@@ -15,7 +15,7 @@ class EnrollmentTest < Minitest::Test
   end
 
   def test_enrollment_class_exists
-    assert Enrollment.new(@data)
+    assert Enrollment.new("stuff")
   end
 
   def test_truncate_number_method_works

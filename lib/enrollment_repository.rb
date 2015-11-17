@@ -1,4 +1,3 @@
-
 class EnrollmentRepository
 
   attr_reader :enrollments

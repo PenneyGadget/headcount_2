@@ -1,4 +1,3 @@
-
 class Enrollment
 
   attr_reader :data

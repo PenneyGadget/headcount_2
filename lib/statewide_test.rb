@@ -19,12 +19,6 @@ class StatewideTest
     end
   end
 
-  def grade_is_valid(grade)
-    return @data.has_key?(:third_grade) if grade == 3
-    return @data.has_key?(:eighth_grade) if grade == 8
-    raise "UnknownDataError"
-  end
-
   def proficient_by_race_or_ethnicity(race_or_ethnicity)
     if race_or_ethnicity_is_valid(race_or_ethnicity)
       math = query_hash_by_three_with_race_by_subject(race_or_ethnicity, :math, @data[:math], :timeframe, [{:score => :data}])
@@ -34,9 +28,48 @@ class StatewideTest
     end
   end
 
+  def proficient_for_subject_by_grade_in_year(score, grade, year)
+    if score_is_valid(score) && grade_is_valid(grade)
+      return truncate(get_data_for_subject_by_grade_in_year(score, :third_grade, year)) if grade == 3
+      return truncate(get_data_for_subject_by_grade_in_year(score, :eighth_grade, year)) if grade == 8
+    end
+  end
+
+  def proficient_for_subject_by_race_in_year(score, race_or_ethnicity, year)
+    if score_is_valid(score) && race_or_ethnicity_is_valid(race_or_ethnicity)
+      return truncate(get_data_for_subject_by_race_in_year(score, race_or_ethnicity, year))
+    end
+  end
+
+  def grade_is_valid(grade)
+    return @data.has_key?(:third_grade) if grade == 3
+    return @data.has_key?(:eighth_grade) if grade == 8
+    raise "UnknownDataError"
+  end
+
   def race_or_ethnicity_is_valid(race_or_ethnicity)
     valid_races = [:asian, :black, :pacific_islander, :hispanic, :native_american, :two_or_more, :white]
-    valid_races.include?(race_or_ethnicity.downcase) ? true : (raise "UnknownRaceError")
+    return true if valid_races.include?(race_or_ethnicity.downcase)
+    raise "UnknownRaceError"
+  end
+
+  def score_is_valid(score)
+    return @data.has_key?(:math) if score == :math
+    return @data.has_key?(:reading) if score == :reading
+    return @data.has_key?(:writing) if score == :writing
+    raise "UnknownDataError"
+  end
+
+  def get_data_for_subject_by_grade_in_year(score, grade, year)
+    @data[grade].each do | hash_row |
+      return hash_row[:data] if hash_row[:score].downcase.to_sym == score && hash_row[:timeframe].to_i == year
+    end
+  end
+
+  def get_data_for_subject_by_race_in_year(score, race_or_ethnicity, year)
+    @data[score].each do | hash_row |
+      return hash_row[:data] if hash_row[:race_ethnicity].downcase.to_sym == race_or_ethnicity && hash_row[:timeframe].to_i == year
+    end
   end
 
   def query_hash_by_three(hash_array, group_by, columns)
