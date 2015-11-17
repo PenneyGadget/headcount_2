@@ -8,11 +8,18 @@ class HeadcountAnalystTest < Minitest::Test
   def setup
     @dr = DistrictRepository.new
     @ha = HeadcountAnalyst.new(@dr)
-    @dr.load_data({ :enrollment =>
-                    { :kindergarten =>           "./data/Kindergartners in full-day program.csv",
+    @dr.load_data({:enrollment => {
+                      :kindergarten => "./data/Kindergartners in full-day program.csv",
                       :high_school_graduation => "./data/High school graduation rates.csv"
+                    },
+                   :statewide_testing => {
+                      :third_grade => "./data/3rd grade students scoring proficient or above on the CSAP_TCAP.csv",
+                      :eighth_grade => "./data/8th grade students scoring proficient or above on the CSAP_TCAP.csv",
+                      :math => "./data/Average proficiency on the CSAP_TCAP by race_ethnicity_ Math.csv",
+                      :reading => "./data/Average proficiency on the CSAP_TCAP by race_ethnicity_ Reading.csv",
+                      :writing => "./data/Average proficiency on the CSAP_TCAP by race_ethnicity_ Writing.csv"
                     }
-                  })
+                    })
   end
 
   def test_headcount_class_exists
@@ -48,7 +55,7 @@ class HeadcountAnalystTest < Minitest::Test
   end
 
   def test_kindergarten_participation_against_high_school_graduation_returns_truncated_float
-    assert_equal 0.641, @ha.kindergarten_participation_against_high_school_graduation("ACADEMY 20")   
+    assert_equal 0.641, @ha.kindergarten_participation_against_high_school_graduation("ACADEMY 20")
   end
 
   def test_get_hs_grad_data_grabs_the_proper_raw_data
@@ -74,6 +81,24 @@ class HeadcountAnalystTest < Minitest::Test
                   @dr.enrollment_repo.find_by_name('MOFFAT 2'),
                   @dr.enrollment_repo.find_by_name('WIGGINS RE-50(J)'),
                   @dr.enrollment_repo.find_by_name('SILVERTON 1')])
+  end
+
+  def test_top_statewide_test_year_over_year_raises_an_error_when_an_incorrect_grade_is_passed_in
+    assert_raises "UnknownDataError: 9 is not a known grade" do
+      @ha.top_statewide_test_year_over_year(grade: 9, subject: :math)
+    end
+  end
+
+  def test_top_statewide_test_year_over_year_raises_an_error_when_a_grade_is_not_passed_in
+    assert_raises "InsufficientInformationError: A grade must be provided to answer this question" do
+      @ha.top_statewide_test_year_over_year(subject: :math)
+    end
+  end
+
+  def test_top_statewide_test_year_over_year_raises_an_error_when_a_subject_is_not_passed_in
+    assert_raises "InsufficientInformationError: A subject must be provided to answer this question" do
+      @ha.top_statewide_test_year_over_year(grade: 8)
+    end
   end
 
   def test_get_avg_method_does_the_maths_right

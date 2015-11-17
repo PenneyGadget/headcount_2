@@ -83,8 +83,9 @@ class HeadcountAnalyst
   end
 
   def top_statewide_test_year_over_year_growth(grade_subj_hash)
-    raise "InsufficientInformation Error: A grade must be provided to answer this question" unless grade_subj_hash.has_key?(:grade)
-    raise "InsufficientInformation Error: A subject must be provided to answer this question" unless grade_subj_hash.has_key?(:subject)
+    raise "InsufficientInformationError: A grade must be provided to answer this question" unless grade_subj_hash.has_key?(:grade)
+    raise "InsufficientInformationError: A subject must be provided to answer this question" unless grade_subj_hash.has_key?(:subject)
+    raise "UnknownDataError: #{grade_subj_hash[:grade]} is not a known grade" unless grade_subj_hash[:grade] == 3 || grade_subj_hash[:grade] == 8
     get_averages_with_name(grade_subj_hash)[0]
   end
 
