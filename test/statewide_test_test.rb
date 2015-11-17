@@ -17,7 +17,7 @@ class StatewideTestTest < Minitest::Test
     @statewide_test = @str.find_by_name("ACADEMY 20")
   end
 
-  def test_enrollment_class_exists
+  def test_statewide_test_class_exists
     assert StatewideTest.new("stuff")
   end
 
@@ -80,15 +80,64 @@ class StatewideTestTest < Minitest::Test
     end
   end
 
+  def test_proficient_for_subject_by_grade_in_year_takes_correct_3_params_and_returns_a_three_digit_float
+    assert_equal 0.857, @statewide_test.proficient_for_subject_by_grade_in_year(:math, 3, 2008)
+  end
+
+  def test_proficient_for_subject_by_grade_in_year_raises_an_error_with_any_invalid_parameter
+    assert_raises "UnknownDataError" do
+      @statewide_test.proficient_for_subject_by_grade_in_year(:science, 3, 2008)
+    end
+
+    assert_raises "UnknownDataError" do
+      @statewide_test.proficient_for_subject_by_grade_in_year(:math, 11, 2008)
+    end
+
+    assert_raises "UnknownDataError" do
+      @statewide_test.proficient_for_subject_by_grade_in_year(:math, 11, 1999)
+    end
+  end
+
+  def test_proficient_for_subject_by_race_in_year_takes_correct_3_params_and_returns_a_three_digit_float
+    assert_equal 0.818, @statewide_test.proficient_for_subject_by_race_in_year(:math, :asian, 2012)
+  end
+
+  def test_proficient_for_subject_by_race_in_year_raises_an_error_with_any_invalid_parameter
+    assert_raises "UnknownDataError" do
+      @statewide_test.proficient_for_subject_by_race_in_year(:history, :asian, 2012)
+    end
+
+    assert_raises "UnknownDataError" do
+      @statewide_test.proficient_for_subject_by_race_in_year(:history, :white_guy, 2012)
+    end
+
+    assert_raises "UnknownDataError" do
+      @statewide_test.proficient_for_subject_by_race_in_year(:history, :asian, 2021)
+    end
+  end
+
+  def test_grade_is_valid_method_functions_properly
+    assert_raises "UnknownDataError" do
+      @statewide_test.grade_is_valid(1)
+    end
+  end
+
   def test_race_or_ethnicity_is_valid_method_functions_properly
     assert_raises "UnknownRaceError" do
       @statewide_test.race_or_ethnicity_is_valid(:carebear)
     end
   end
 
+  def test_score_is_valid_method_functions_properly
+    assert_raises "UnknownRaceError" do
+      @statewide_test.score_is_valid(:woodshop)
+    end
+  end
+
   def test_query_hash_by_three_method_groups_data_correctly
+    skip
     expected = {}
-    
+
     assert_equal expected, @statewide_test.query_hash_by_three(@statewide_test.data, :timeframe, [{ :score => :data }])
   end
 
