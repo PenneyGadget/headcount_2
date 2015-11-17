@@ -82,6 +82,36 @@ class HeadcountAnalyst
     correlated.count { | boolean | boolean == true } / correlated.length.to_f
   end
 
+  def top_statewide_test_year_over_year_growth(grade_subj_hash)
+    raise "InsufficientInformation Error: A grade must be provided to answer this question" unless grade_subj_hash.has_key?(:grade)
+    raise "InsufficientInformation Error: A subject must be provided to answer this question" unless grade_subj_hash.has_key?(:subject)
+    get_averages_with_name(grade_subj_hash)[0]
+  end
+
+  def get_averages_with_name(grade_subj_hash)
+    averages_with_name = []
+    @dr.statewide_test_repo.statewide_tests.each do | swt |
+      if swt.data.has_key?(:third_grade)
+        relevant_hashes = swt.data[:third_grade].select do | hash_row |
+          hash_row[:score].downcase.to_sym == grade_subj_hash[:subject]
+        end
+        averages_with_name << [swt.name, calculate_growth(relevant_hashes.map { | h | h[:data].to_f })]
+      end
+    end
+    return ((averages_with_name.select { | n | n[1].is_a?(Float)}).sort_by { | n | n[1] }).reverse
+  end
+
+  def calculate_growth(values)
+    return nil if values.length < 2
+    subtract_counter = 1
+    average = 0
+    (values.length-1).times do
+      average = average + (values[subtract_counter] - values[subtract_counter-1])
+      subtract_counter += 1
+    end
+    average/(values.length-1)
+  end
+
   def get_avg(data)
     data.reduce(:+) / data.length
   end

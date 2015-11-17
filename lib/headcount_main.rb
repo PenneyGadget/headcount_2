@@ -4,7 +4,7 @@ require_relative 'district_repository'
 
 
 dr = DistrictRepository.new
-
+ha = HeadcountAnalyst.new(dr)
 str = dr.statewide_test_repo
 str.load_data({
   :statewide_testing => {
@@ -15,3 +15,5 @@ str.load_data({
     :writing => "./data/Average proficiency on the CSAP_TCAP by race_ethnicity_ Writing.csv"
   }
 })
+
+puts ha.top_statewide_test_year_over_year_growth(grade: 3, subject: :math)
