@@ -12,8 +12,8 @@ require_relative 'headcount_analyst'
 
 class DistrictRepository
 
-  attr_reader :districts, :economic_profile_repo, :formatter
-  attr_accessor :enrollment_repo, :statewide_test_repo
+  attr_reader :districts, :formatter
+  attr_accessor :enrollment_repo, :statewide_test_repo, :economic_profile_repo
 
   def initialize
     @districts = []
