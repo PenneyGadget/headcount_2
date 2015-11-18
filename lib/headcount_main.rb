@@ -14,6 +14,8 @@ epr.load_data({
                           :children_in_poverty => "./data/School-aged children in poverty.csv",
                           :free_or_reduced_price_lunch => "./data/Students qualifying for free or reduced price lunch.csv",
                           :title_i => "./data/Title I students.csv"
-  }
-})
+                         }
+             })
 ep = epr.find_by_name("ACADEMY 20")
+puts ep.estimated_median_household_income_in_year(2008)
+puts ep.median_household_income_average
