@@ -85,36 +85,38 @@ class HeadcountAnalystTest < Minitest::Test
 
   def test_top_statewide_test_year_over_year_raises_an_error_when_an_incorrect_grade_is_passed_in
     assert_raises "UnknownDataError: 9 is not a known grade" do
-      @ha.top_statewide_test_year_over_year(grade: 9, subject: :math)
+      @ha.top_statewide_test_year_over_year_growth(grade: 9, subject: :math)
     end
   end
 
   def test_top_statewide_test_year_over_year_raises_an_error_when_a_grade_is_not_passed_in
     assert_raises "InsufficientInformationError: A grade must be provided to answer this question" do
-      @ha.top_statewide_test_year_over_year(subject: :math)
+      @ha.top_statewide_test_year_over_year_growth(subject: :math)
     end
   end
 
   def test_top_statewide_test_year_over_year_raises_an_error_when_a_subject_is_not_passed_in
     assert_raises "InsufficientInformationError: A subject must be provided to answer this question" do
-      @ha.top_statewide_test_year_over_year(grade: 8)
+      @ha.top_statewide_test_year_over_year_growth(grade: 8)
     end
   end
 
   def test_get_gradekey
+    assert_equal :third_grade, @ha.get_gradekey(3)
 
+    assert_equal :eighth_grade, @ha.get_gradekey(8)
   end
 
   def test_get_averages_with_single_leader
-
+    assert_equal 0.114, @ha.get_averages_with_single_leader({grade: 3, subject: :reading}, :third_grade)
   end
 
   def test_get_averages_with_multiple_leaders
-
+    assert_equal ["CENTENNIAL R-1", 0.114], @ha.get_averages_with_multiple_leaders({grade: 3, subject: :reading}, :third_grade)
   end
 
   def test_averages_across_all_subjects
-
+    assert_equal ["DE BEQUE 49JT", 0.17], @ha.get_averages_with_multiple_leaders({grade: 8, subject: :writing}, :eighth_grade)
   end
 
   def test_get_avg_method_does_the_maths_right
