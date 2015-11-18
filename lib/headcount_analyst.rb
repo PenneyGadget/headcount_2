@@ -119,14 +119,14 @@ class HeadcountAnalyst
   end
 
   def get_averages_across_all_subjects(grade_subj_hash, grade)
-     all_avgs = @swt.map do |swt|
-       weighting = {:math => 1.0/3.0, :reading => 1.0/3.0, :writing => 1.0/3.0}
-       weighting = grade_subj_hash[:weighting] unless grade_subj_hash[:weighting].nil?
-       [swt.name, swt.year_over_year_avg(grade, :all, weighting)]
-     end
-     avgs = all_avgs.select { | n | (n[1].is_a?(Float) && !n[1].nan?) }
-     sorted = avgs.sort_by { | n | n[1] }
-     [sorted[-1][0], truncate(sorted[-1][1])]
+    all_avgs = @swt.map do |swt|
+      weighting = {:math => 1.0/3.0, :reading => 1.0/3.0, :writing => 1.0/3.0}
+      weighting = grade_subj_hash[:weighting] unless grade_subj_hash[:weighting].nil?
+      [swt.name, swt.year_over_year_avg(grade, :all, weighting)]
+    end
+    avgs = all_avgs.select { | n | (n[1].is_a?(Float) && !n[1].nan?) }
+    sorted = avgs.sort_by { | n | n[1] }
+    [sorted[-1][0], truncate(sorted[-1][1])]
   end
 
   def get_avg(data)

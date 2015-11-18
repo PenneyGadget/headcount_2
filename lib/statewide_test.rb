@@ -98,7 +98,7 @@ class StatewideTest
     return_hash
   end
 
-  def year_over_year_avg(grade, subject, weighting = {:math => 1.0/3.0, :reading => 1.0/3.0, :writing => 1.0/3.0})
+  def year_over_year_avg(grade, subject, weighting={:math => 1.0/3.0, :reading => 1.0/3.0, :writing => 1.0/3.0})
     if subject == :all
       math_read_write = get_weighted_avgs(grade, weighting)
       return nil if math_read_write.nil?
