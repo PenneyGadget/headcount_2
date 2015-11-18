@@ -25,7 +25,13 @@ class EnrollmentRepository
   end
 
   def load_data(hash)
-    @dr.formatter.distribute(hash)
+    if @dr.nil?
+      @dr = DistrictRepository.new
+      @dr.enrollment_repo = self
+      @dr.load_data(hash)
+    else
+      @dr.formatter.distribute(hash)
+    end
   end
 
 end

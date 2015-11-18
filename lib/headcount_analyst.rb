@@ -84,8 +84,8 @@ class HeadcountAnalyst
   end
 
   def top_statewide_test_year_over_year_growth(grade_subj_hash)
-    raise "InsufficientInformationError: A grade must be provided to answer this question" unless grade_subj_hash.has_key?(:grade)
-    raise "UnknownDataError: #{grade_subj_hash[:grade]} is not a known grade" unless grade_subj_hash[:grade] == 3 || grade_subj_hash[:grade] == 8
+    fail InsufficientInformationError, 'A grade must be provided to answer this question' unless grade_subj_hash.has_key?(:grade)
+    fail UnknownDataError, 'Not a known grade' unless grade_subj_hash[:grade] == 3 || grade_subj_hash[:grade] == 8
     if grade_subj_hash.has_key?(:top)
       get_averages_with_multiple_leaders(grade_subj_hash, get_gradekey(grade_subj_hash[:grade]))
     elsif grade_subj_hash.has_key?(:subject)
@@ -105,7 +105,9 @@ class HeadcountAnalyst
       [swt.name, swt.year_over_year_avg(grade, grade_subj_hash[:subject])]
     end
     avgs = all_avgs.select { | n | (n[1].is_a?(Float) && !n[1].nan?) }
-    truncate((avgs.sort_by { | n | n[1] }.reverse)[0][1])
+    leader = (avgs.sort_by { | n | n[1] }.reverse)[0]
+    leader[1] = truncate(leader[1])
+    return leader
   end
 
   def get_averages_with_multiple_leaders(grade_subj_hash, grade)
@@ -137,4 +139,13 @@ class HeadcountAnalyst
     (number.to_f * 1000).to_i / 1000.0
   end
 
+end
+
+class UnknownDataError < ArgumentError
+end
+
+class UnknownRaceError < ArgumentError
+end
+
+class InsufficientInformationError < ArgumentError
 end

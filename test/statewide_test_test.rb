@@ -172,7 +172,7 @@ class StatewideTestTest < Minitest::Test
   def test_year_over_year_avg_with_custom_weighting_returns_correct_raw_data
     expected = 0.0024133333333333324
 
-    assert_equal expected, @statewide_test.year_over_year_avg(:eighth_grade, :all, :weighting => {:math => 0.5, :reading => 0.5, :writing => 0.0})
+    assert_equal expected, @statewide_test.year_over_year_avg(:eighth_grade, :all, {:math => 0.5, :reading => 0.5, :writing => 0.0})
   end
 
   def test_earliest_year_data_for_one_subject_returns_correct_raw_data
@@ -188,9 +188,9 @@ class StatewideTestTest < Minitest::Test
   end
 
   def test_get_weighted_avgs_returns_correct_raw_data
-    assert_equal 0.002393666666666668, @statewide_test.get_weighted_avgs(:eighth_grade, :weighting => {:math => 0.4, :reading => 0.4, :writing => 0.2})
+    assert_equal 0.002393666666666668, @statewide_test.get_weighted_avgs(:eighth_grade, {:math => 0.4, :reading => 0.4, :writing => 0.2})
 
-    assert_equal (-0.0040526666666666645), @statewide_test.get_weighted_avgs(:third_grade, :weighting => {:math => 0.8, :reading => 0.0, :writing => 0.2})
+    assert_equal (-0.0040526666666666645), @statewide_test.get_weighted_avgs(:third_grade, {:math => 0.8, :reading => 0.0, :writing => 0.2})
   end
 
   def test_math_data

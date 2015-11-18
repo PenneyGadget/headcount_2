@@ -27,7 +27,13 @@ class StatewideTestRepository
   end
 
   def load_data(hash)
-    @dr.formatter.distribute(hash)
+    if @dr.nil?
+      @dr = DistrictRepository.new
+      @dr.statewide_test_repo = self
+      @dr.load_data(hash)
+    else
+      @dr.formatter.distribute(hash)
+    end
   end
 
 end

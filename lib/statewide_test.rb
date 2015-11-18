@@ -1,4 +1,5 @@
 require 'pry'
+require_relative 'district_repository'
 
 class StatewideTest
 
@@ -44,20 +45,20 @@ class StatewideTest
   def grade_is_valid(grade)
     return @data.has_key?(:third_grade) if grade == 3
     return @data.has_key?(:eighth_grade) if grade == 8
-    raise "UnknownDataError"
+    fail UnknownDataError
   end
 
   def race_or_ethnicity_is_valid(race_or_ethnicity)
     valid_races = [:asian, :black, :pacific_islander, :hispanic, :native_american, :two_or_more, :white]
     return true if valid_races.include?(race_or_ethnicity.downcase)
-    raise "UnknownRaceError"
+    fail UnknownDataError
   end
 
   def score_is_valid(score)
     return @data.has_key?(:math) if score == :math
     return @data.has_key?(:reading) if score == :reading
     return @data.has_key?(:writing) if score == :writing
-    raise "UnknownDataError"
+    fail UnknownDataError
   end
 
   def get_data_for_subject_by_grade_in_year(score, grade, year)
@@ -98,7 +99,7 @@ class StatewideTest
     return_hash
   end
 
-  def year_over_year_avg(grade, subject, weighting={:math => 1.0/3.0, :reading => 1.0/3.0, :writing => 1.0/3.0})
+  def year_over_year_avg(grade, subject, weighting = {:math => 1.0/3.0, :reading => 1.0/3.0, :writing => 1.0/3.0})
     if subject == :all
       math_read_write = get_weighted_avgs(grade, weighting)
       return nil if math_read_write.nil?
@@ -134,9 +135,9 @@ class StatewideTest
   def get_weighted_avgs(grade, weighting)
     math, reading, writing = math_data(grade), reading_data(grade), writing_data(grade)
     return nil unless [math, reading, writing].none?{ | n | n.nil? }
-    math = math * weighting[:weighting][:math]
-    reading = reading * weighting[:weighting][:reading]
-    writing = writing * weighting[:weighting][:writing]
+    math = math * weighting[:math]
+    reading = reading * weighting[:reading]
+    writing = writing * weighting[:writing]
     [math, reading, writing].compact.reduce(:+)
   end
 

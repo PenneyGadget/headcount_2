@@ -14,11 +14,11 @@ class DistrictTest < Minitest::Test
   end
 
   def test_district_class_exists
-    assert District.new("Colorado")
+    assert District.new({:name => "Colorado"})
   end
 
   def test_name_method_return_the_upcased_string_name_of_district
-    d = District.new("Colorado")
+    d = District.new({:name => "Colorado"})
 
     assert_equal "COLORADO", d.name
   end

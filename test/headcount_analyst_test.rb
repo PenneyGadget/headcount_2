@@ -95,12 +95,6 @@ class HeadcountAnalystTest < Minitest::Test
     end
   end
 
-  def test_top_statewide_test_year_over_year_raises_an_error_when_a_subject_is_not_passed_in
-    assert_raises "InsufficientInformationError: A subject must be provided to answer this question" do
-      @ha.top_statewide_test_year_over_year_growth(grade: 8)
-    end
-  end
-
   def test_get_gradekey
     assert_equal :third_grade, @ha.get_gradekey(3)
 
@@ -108,7 +102,7 @@ class HeadcountAnalystTest < Minitest::Test
   end
 
   def test_get_averages_with_single_leader
-    assert_equal 0.114, @ha.get_averages_with_single_leader({grade: 3, subject: :reading}, :third_grade)
+    assert_equal 0.114, @ha.get_averages_with_single_leader({grade: 3, subject: :reading}, :third_grade)[1]
   end
 
   def test_get_averages_with_multiple_leaders

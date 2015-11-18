@@ -12,7 +12,8 @@ require_relative 'headcount_analyst'
 
 class DistrictRepository
 
-  attr_reader :districts, :enrollment_repo, :statewide_test_repo, :economic_profile_repo, :formatter
+  attr_reader :districts, :economic_profile_repo, :formatter
+  attr_accessor :enrollment_repo, :statewide_test_repo
 
   def initialize
     @districts = []
@@ -28,7 +29,7 @@ class DistrictRepository
       if @districts.include?(find_by_name(row["Location"].upcase))
         next
       else
-        @districts << District.new(row["Location"].upcase)
+        @districts << District.new({:name => row["Location"].upcase})
       end
     end
   end
