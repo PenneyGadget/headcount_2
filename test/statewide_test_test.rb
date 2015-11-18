@@ -163,36 +163,62 @@ class StatewideTestTest < Minitest::Test
     assert_equal expected, @statewide_test.query_hash_by_three_with_race_by_subject(:asian, :math, @statewide_test.data[:math], :timeframe, [{ :score => :data }])
   end
 
-  def test_year_over_year_avg
-    skip
+  def test_year_over_year_avg_with_equal_weighting_returns_correct_raw_data
+    expected = -0.002666666666666669
+
+    assert_equal expected, @statewide_test.year_over_year_avg(:eighth_grade, :reading)
   end
 
-  def test_earliest_year_data
-    skip
+  def test_year_over_year_avg_with_custom_weighting_returns_correct_raw_data
+    expected = -0.002666666666666669
+
+    assert_equal expected, @statewide_test.year_over_year_avg(:eighth_grade, :all, :weighting => {:math => 0.5, :reading => 0.5, :writing => 0.0})
   end
 
-  def test_latest_year_data
-    skip
+  def test_earliest_year_data_for_one_subject_returns_correct_raw_data
+    assert_equal [2008.0, 0.866], @statewide_test.earliest_year_data(:third_grade, :reading)
   end
 
-  def test_get_avg
+  def test_earliest_year_data_for_all_subjects_returns_correct_raw_data
     skip
+    assert_equal [2008.0, 0.866], @statewide_test.earliest_year_data(:third_grade, :all)
+
+    assert_equal [2008.0, 0.866], @statewide_test.earliest_year_data(:third_grade)
+  end
+
+  def test_latest_year_data_for_one_subject_returns_correct_raw_data
+    assert_equal [2014.0, 0.68496], @statewide_test.latest_year_data(:eighth_grade, :math)
+  end
+
+  def test_latest_year_data_for_all_subjects_returns_correct_raw_data
+    skip
+    assert_equal [2008.0, 0.866], @statewide_test.latest_year_data(:eighth_grade, :all)
+
+    assert_equal [2008.0, 0.866], @statewide_test.latest_year_data(:eighth_grade)
+  end
+
+  def test_get_avg_method_does_the_maths_like_a_math_whiz
+    assert_equal 0.013750000000000004, @statewide_test.get_avg([2008.0, 0.866], [2014.0, 0.9485])
   end
 
   def test_get_weighted_avgs
     skip
+    @statewide_test.get_weighted_avgs(:eighth_grade)
   end
 
   def test_math_data
     skip
+    @statewide_test.math_data(:third_grade)
   end
 
   def test_reading_data
     skip
+    @statewide_test.reading_data(:third_grade)
   end
 
   def test_writing_data
     skip
+    @statewide_test.writing_data(:third_grade)
   end
 
 end
