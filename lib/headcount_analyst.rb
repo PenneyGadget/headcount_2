@@ -116,7 +116,7 @@ class HeadcountAnalyst
     sorted = (avgs.sort_by { | n | n[1] }.reverse)
     sorted.each { | n | n[1] = truncate(n[1]) }
     sorted.max_by(grade_subj_hash[:top]) { | n | n[1] }
-  end  
+  end
 
   def get_averages_across_all_subjects(grade_subj_hash, grade)
     all_avgs = @swt.map do |swt|
@@ -138,21 +138,3 @@ class HeadcountAnalyst
   end
 
 end
-
-
-
-
-
-
-
-
-# if grade_subj_hash.has_key?(:weighting)
-#       get_averages_across_all_subjects(grade_subj_hash, get_gradekey(grade_subj_hash[:grade]))
-#     elsif grade_subj_hash.has_key?(:top)
-#       get_averages_with_multiple_leaders(grade_subj_hash, get_gradekey(grade_subj_hash[:grade]))
-#     elsif grade_subj_hash.has_key?(:subject)
-#       get_averages_with_single_leader(grade_subj_hash, get_gradekey(grade_subj_hash[:grade]))
-#     else
-#       get_averages_across_all_subjects(grade_subj_hash, get_gradekey(grade_subj_hash[:grade]))
-#     end
-#   end

@@ -68,7 +68,7 @@ class StatewideTest
 
   def get_data_for_subject_by_race_in_year(score, race_or_ethnicity, year)
     @data[score].each do | hash_row |
-      return hash_row[:data] if hash_row[:race_ethnicity].downcase.to_sym == race_or_ethnicity && hash_row[:timeframe].to_i == year
+      return hash_row[:data]if hash_row[:race_ethnicity].downcase.to_sym == race_or_ethnicity && hash_row[:timeframe].to_i == year
     end
   end
 
@@ -139,7 +139,7 @@ class StatewideTest
     writing = writing * weighting[:writing]
     [math, reading, writing].compact.reduce(:+)
   end
- 
+
   def math_data(grade)
     earliest_year = earliest_year_data(grade, :math)
     latest_year = latest_year_data(grade, :math)
