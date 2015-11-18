@@ -86,9 +86,7 @@ class HeadcountAnalyst
   def top_statewide_test_year_over_year_growth(grade_subj_hash)
     raise "InsufficientInformationError: A grade must be provided to answer this question" unless grade_subj_hash.has_key?(:grade)
     raise "UnknownDataError: #{grade_subj_hash[:grade]} is not a known grade" unless grade_subj_hash[:grade] == 3 || grade_subj_hash[:grade] == 8
-    if grade_subj_hash.has_key?(:weighting)
-      get_averages_with_weighting(grade_subj_hash, get_gradekey(grade_subj_hash[:grade]))
-    elsif grade_subj_hash.has_key?(:top)
+    if grade_subj_hash.has_key?(:top)
       get_averages_with_multiple_leaders(grade_subj_hash, get_gradekey(grade_subj_hash[:grade]))
     elsif grade_subj_hash.has_key?(:subject)
       get_averages_with_single_leader(grade_subj_hash, get_gradekey(grade_subj_hash[:grade]))
@@ -110,13 +108,23 @@ class HeadcountAnalyst
     truncate((avgs.sort_by { | n | n[1] }.reverse)[0][1])
   end
 
-  def get_averages_with_weighting(grade_subj_hash, grade, subject)
-  end
-
-  def get_averages_with_multiple_leaders(grade_subj_hash, grade, subject)
+  def get_averages_with_multiple_leaders(grade_subj_hash, grade)
+    all_avgs = @swt.map do |swt|
+      [swt.name, swt.year_over_year_avg(grade, grade_subj_hash[:subject])]
+    end
+    avgs = all_avgs.select { | n | (n[1].is_a?(Float) && !n[1].nan?) }
+    sorted = (avgs.sort_by { | n | n[1] }.reverse)
+    sorted.each { | n | n[1] = truncate(n[1]) }
+    sorted.max_by(grade_subj_hash[:top]) { | n | n[1] }
   end  
 
   def get_averages_across_all_subjects(grade_subj_hash, grade)
+    all_avgs = @swt.map do |swt|
+      [swt.name, swt.year_over_year_avg(grade, :all, grade_subj_hash[:weighting])]
+    end
+    avgs = all_avgs.select { | n | (n[1].is_a?(Float) && !n[1].nan?) }
+    sorted = avgs.sort_by { | n | n[1] }
+    [sorted[-1][0], truncate(sorted[-1][1])]
   end
 
   def get_avg(data)
@@ -131,26 +139,18 @@ end
 
 
 
-  # def get_leaders_with_name(grade_subj_hash, grade, all_subs=false)
-  #   averages_with_name = []
-  #   @dr.statewide_test_repo.statewide_tests.each do | swt |
-  #     if swt.data.has_key?(grade)
-  #       relevant_hashes = swt.data[grade].select do | hash_row |
-  #         hash_row[:score].downcase.to_sym == grade_subj_hash[:subject] || all_subs == true
-  #       end
-  #       averages_with_name << [swt.name, truncate(calculate_growth(relevant_hashes.map { | h | h[:data].to_f }))]
-  #     end
-  #   end
-  #   return ((averages_with_name.select { | n | n[1].is_a?(Float)}).sort_by { | n | n[1] }).reverse
-  # end
 
-  # def calculate_growth(values)
-  #   return nil if values.length < 2
-  #   subtract_counter = 1
-  #   average = 0
-  #   (values.length-1).times do
-  #     average = average + (values[subtract_counter] - values[subtract_counter-1])
-  #     subtract_counter += 1
-  #   end
-  #   average/(values.length-1)
-  # end
+
+
+
+
+# if grade_subj_hash.has_key?(:weighting)
+#       get_averages_across_all_subjects(grade_subj_hash, get_gradekey(grade_subj_hash[:grade]))
+#     elsif grade_subj_hash.has_key?(:top)
+#       get_averages_with_multiple_leaders(grade_subj_hash, get_gradekey(grade_subj_hash[:grade]))
+#     elsif grade_subj_hash.has_key?(:subject)
+#       get_averages_with_single_leader(grade_subj_hash, get_gradekey(grade_subj_hash[:grade]))
+#     else
+#       get_averages_across_all_subjects(grade_subj_hash, get_gradekey(grade_subj_hash[:grade]))
+#     end
+#   end

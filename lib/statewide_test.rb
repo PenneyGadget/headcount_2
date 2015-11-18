@@ -98,9 +98,11 @@ class StatewideTest
     return_hash
   end
 
-  def year_over_year_avg(grade, subject=:all)
+  def year_over_year_avg(grade, subject, weighting = {:math => 1.0/3.0, :reading => 1.0/3.0, :writing => 1.0/3.0})
     if subject == :all
-      all_data(grade)
+      math_read_write = get_weighted_avgs(grade, weighting)
+      return nil if math_read_write.nil?
+      return math_read_write
     else
       earliest_year = earliest_year_data(grade, subject)
       latest_year = latest_year_data(grade, subject)
@@ -129,11 +131,34 @@ class StatewideTest
     (latest_data[1] - earliest_data[1]) / (latest_data[0] - earliest_data[0])
   end
 
-  def all_data(grade)
-    math = get_avg(earliest_year_data(grade, :math), latest_year_data(grade, :math))
-    reading = get_avg(earliest_year_data(grade, :reading), latest_year_data(grade, :reading))
-    writing = get_avg(earliest_year_data(grade, :writing), latest_year_data(grade, :writing))
-    truncate((math + reading + writing) / 3.0)
+  def get_weighted_avgs(grade, weighting)
+    math, reading, writing = math_data(grade), reading_data(grade), writing_data(grade)
+    return nil unless [math, reading, writing].none?{ | n | n.nil? }
+    math = math * weighting[:math]
+    reading = reading * weighting[:reading]
+    writing = writing * weighting[:writing]
+    [math, reading, writing].compact.reduce(:+)
+  end
+ 
+  def math_data(grade)
+    earliest_year = earliest_year_data(grade, :math)
+    latest_year = latest_year_data(grade, :math)
+    return nil if earliest_year.nil? || latest_year.nil?
+    get_avg(earliest_year, latest_year)
+  end
+
+  def reading_data(grade)
+    earliest_year = earliest_year_data(grade, :reading)
+    latest_year = latest_year_data(grade, :reading)
+    return nil if earliest_year.nil? || latest_year.nil?
+    get_avg(earliest_year, latest_year)
+  end
+
+  def writing_data(grade)
+    earliest_year = earliest_year_data(grade, :writing)
+    latest_year = latest_year_data(grade, :writing)
+    return nil if earliest_year.nil? || latest_year.nil?
+    get_avg(earliest_year, latest_year)
   end
 
   def truncate(number)
