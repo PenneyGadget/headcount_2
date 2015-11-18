@@ -12,7 +12,11 @@ class Formatter
                     :eighth_grade => :eighth_grade_formatter,
                     :math => :math_formatter,
                     :reading => :reading_formatter,
-                    :writing => :writing_formatter
+                    :writing => :writing_formatter,
+                    :median_household_income => :median_household_income_formatter,
+                    :children_in_poverty => :children_in_poverty_formatter,
+                    :free_or_reduced_price_lunch => :free_or_reduced_price_lunch_formatter,
+                    :title_i => :title_i_formatter
                   }
   end
 
@@ -36,6 +40,8 @@ class Formatter
       @dr.enrollment_repo.store_enrollment(formatted_hash)
     elsif category == :statewide_testing
       @dr.statewide_test_repo.store_statewide_test(formatted_hash)
+    elsif category == :economic_profile
+      @dr.economic_profile_repo.store_economic_profiles(formatted_hash)
     end
   end
 
@@ -103,6 +109,38 @@ class Formatter
        :writing => dist_rows}
      end
      formatted
+  end
+
+  def median_household_income_formatter(parsed_data)
+    formatted = parsed_data.map do | dist_name, dist_rows |
+      {:name => dist_name,
+       :median_household_income => dist_rows}
+    end
+    formatted
+  end
+
+  def children_in_poverty_formatter(parsed_data)
+    formatted = parsed_data.map do | dist_name, dist_rows |
+      {:name => dist_name,
+       :children_in_poverty => dist_rows}
+    end
+    formatted
+  end
+
+  def free_or_reduced_price_lunch_formatter(parsed_data)
+    formatted = parsed_data.map do | dist_name, dist_rows |
+      {:name => dist_name,
+       :free_or_reduced_price_lunch => dist_rows}
+    end
+    formatted
+  end
+
+  def title_i_formatter(parsed_data)
+    formatted = parsed_data.map do | dist_name, dist_rows |
+      {:name => dist_name,
+       :title_i => dist_rows}
+    end
+    formatted
   end
 
 end
