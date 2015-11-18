@@ -8,9 +8,9 @@ class EnrollmentTest < Minitest::Test
     @dr = DistrictRepository.new
     @er = @dr.enrollment_repo
     @er.load_data({:enrollment => {:kindergarten => "./data/Kindergartners in full-day program.csv",
-                                       :high_school_graduation => "./data/High school graduation rates.csv"
-                                      }
-                      })
+                                    :high_school_graduation => "./data/High school graduation rates.csv"
+                                  }
+                  })
     @enrollment = @er.find_by_name("ACADEMY 20")
   end
 
@@ -27,8 +27,8 @@ class EnrollmentTest < Minitest::Test
   end
 
   def test_kindergarten_participation_by_year_returns_a_data_hash_with_3_digit_floats
-    expected = {2007=>0.391, 2006=>0.353, 2005=>0.267, 2004=>0.302, 
-                2008=>0.384, 2009=>0.39, 2010=>0.436, 2011=>0.489, 
+    expected = {2007=>0.391, 2006=>0.353, 2005=>0.267, 2004=>0.302,
+                2008=>0.384, 2009=>0.39, 2010=>0.436, 2011=>0.489,
                 2012=>0.478, 2013=>0.487, 2014=>0.49}
 
     assert_equal expected, @enrollment.kindergarten_participation_by_year
