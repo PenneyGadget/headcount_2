@@ -179,46 +179,30 @@ class StatewideTestTest < Minitest::Test
     assert_equal [2008.0, 0.866], @statewide_test.earliest_year_data(:third_grade, :reading)
   end
 
-  def test_earliest_year_data_for_all_subjects_returns_correct_raw_data
-    skip
-    assert_equal [2008.0, 0.866], @statewide_test.earliest_year_data(:third_grade, :all)
-
-    assert_equal [2008.0, 0.866], @statewide_test.earliest_year_data(:third_grade)
-  end
-
   def test_latest_year_data_for_one_subject_returns_correct_raw_data
     assert_equal [2014.0, 0.68496], @statewide_test.latest_year_data(:eighth_grade, :math)
-  end
-
-  def test_latest_year_data_for_all_subjects_returns_correct_raw_data
-    skip
-    assert_equal [2008.0, 0.866], @statewide_test.latest_year_data(:eighth_grade, :all)
-
-    assert_equal [2008.0, 0.866], @statewide_test.latest_year_data(:eighth_grade)
   end
 
   def test_get_avg_method_does_the_maths_like_a_math_whiz
     assert_equal 0.013750000000000004, @statewide_test.get_avg([2008.0, 0.866], [2014.0, 0.9485])
   end
 
-  def test_get_weighted_avgs
-    skip
-    @statewide_test.get_weighted_avgs(:eighth_grade)
+  def test_get_weighted_avgs_returns_correct_raw_data
+    assert_equal 0.002393666666666668, @statewide_test.get_weighted_avgs(:eighth_grade, :weighting => {:math => 0.4, :reading => 0.4, :writing => 0.2})
+
+    assert_equal (-0.0040526666666666645), @statewide_test.get_weighted_avgs(:third_grade, :weighting => {:math => 0.8, :reading => 0.0, :writing => 0.2})
   end
 
   def test_math_data
-    skip
-    @statewide_test.math_data(:third_grade)
+    assert_equal (-0.0037499999999999942), @statewide_test.math_data(:third_grade)
   end
 
   def test_reading_data
-    skip
-    @statewide_test.reading_data(:third_grade)
+    assert_equal (-0.005831666666666661), @statewide_test.reading_data(:third_grade)
   end
 
   def test_writing_data
-    skip
-    @statewide_test.writing_data(:third_grade)
+    assert_equal 0.0023150000000000115, @statewide_test.writing_data(:eighth_grade)
   end
 
 end
