@@ -98,8 +98,46 @@ class StatewideTest
     return_hash
   end
 
+  def year_over_year_avg(grade, subject=:all)
+    if subject == :all
+      all_data(grade)
+    else
+      earliest_year = earliest_year_data(grade, subject)
+      latest_year = latest_year_data(grade, subject)
+      return nil if earliest_year.nil? || latest_year.nil?
+      get_avg(earliest_year, latest_year)
+    end
+  end
+
+  def earliest_year_data(grade, subject=:all)
+    return nil if @data[grade].nil?
+    subj_lines = @data[grade].select { |hash_row| hash_row[:score].downcase.to_sym == subject }
+    subj_lines.sort_by!{|hash_row| hash_row[:timeframe]}
+    return nil if subj_lines.empty?
+    [subj_lines[0][:timeframe].to_f, subj_lines[0][:data].to_f]
+  end
+
+  def latest_year_data(grade, subject=:all)
+    return nil if @data[grade].nil?
+    subj_lines = @data[grade].select { |hash_row| hash_row[:score].downcase.to_sym == subject }
+    subj_lines.sort_by!{|hash_row| hash_row[:timeframe]}
+    return nil if subj_lines.empty?
+    [subj_lines[-1][:timeframe].to_f, subj_lines[-1][:data].to_f]
+  end
+
+  def get_avg(earliest_data, latest_data)
+    (latest_data[1] - earliest_data[1]) / (latest_data[0] - earliest_data[0])
+  end
+
+  def all_data(grade)
+    math = get_avg(earliest_year_data(grade, :math), latest_year_data(grade, :math))
+    reading = get_avg(earliest_year_data(grade, :reading), latest_year_data(grade, :reading))
+    writing = get_avg(earliest_year_data(grade, :writing), latest_year_data(grade, :writing))
+    truncate((math + reading + writing) / 3.0)
+  end
+
   def truncate(number)
-    (number.to_f * 1000).to_i / 1000.0
+    (number.to_f * 1000.0).to_i / 1000.0
   end
 
 end

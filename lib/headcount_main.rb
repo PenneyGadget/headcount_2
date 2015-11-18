@@ -16,4 +16,7 @@ str.load_data({
   }
 })
 
+#puts ha.top_statewide_test_year_over_year_growth(grade: 3)
+
+#x = dr.statewide_test_repo.find_by_name("ACADEMY 20")
 puts ha.top_statewide_test_year_over_year_growth(grade: 3, subject: :math)
