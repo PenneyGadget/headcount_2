@@ -170,7 +170,7 @@ class StatewideTestTest < Minitest::Test
   end
 
   def test_year_over_year_avg_with_custom_weighting_returns_correct_raw_data
-    expected = -0.002666666666666669
+    expected = 0.0024133333333333324
 
     assert_equal expected, @statewide_test.year_over_year_avg(:eighth_grade, :all, :weighting => {:math => 0.5, :reading => 0.5, :writing => 0.0})
   end

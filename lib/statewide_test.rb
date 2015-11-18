@@ -134,9 +134,9 @@ class StatewideTest
   def get_weighted_avgs(grade, weighting)
     math, reading, writing = math_data(grade), reading_data(grade), writing_data(grade)
     return nil unless [math, reading, writing].none?{ | n | n.nil? }
-    math = math * weighting[:math]
-    reading = reading * weighting[:reading]
-    writing = writing * weighting[:writing]
+    math = math * weighting[:weighting][:math]
+    reading = reading * weighting[:weighting][:reading]
+    writing = writing * weighting[:weighting][:writing]
     [math, reading, writing].compact.reduce(:+)
   end
 
