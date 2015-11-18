@@ -23,7 +23,7 @@ class HeadcountAnalystTest < Minitest::Test
   end
 
   def test_headcount_class_exists
-    assert HeadcountAnalyst.new("stuff")
+    assert HeadcountAnalyst.new(@dr)
   end
 
   def test_kindergarten_participation_rate_variation_compares_two_districts_and_returns_a_3_digit_float
