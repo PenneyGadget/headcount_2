@@ -134,14 +134,64 @@ class StatewideTestTest < Minitest::Test
     end
   end
 
-  def test_query_hash_by_three_method_groups_data_correctly
-    skip
-    expected = {}
-
-    assert_equal expected, @statewide_test.query_hash_by_three(@statewide_test.data, :timeframe, [{ :score => :data }])
+  def test_get_data_for_subject_by_grade_in_year_returns_raw_data
+    assert_equal "0.672", @statewide_test.get_data_for_subject_by_grade_in_year(:math, :eighth_grade, 2010)
   end
 
-  def test_query_hash_by_three_with_race_by_subject_method_groups_data_correctly
+  def test_get_data_for_subject_by_race_in_year_returns_raw_data
+    assert_equal "0.69469", @statewide_test.get_data_for_subject_by_race_in_year(:reading, :black, 2012)
+  end
+
+  def test_query_hash_by_three_method_grabs_the_data_we_need
+    expected = { 2008=>{:math=>0.857, :reading=>0.866, :writing=>0.671},
+                 2009=>{:math=>0.824, :reading=>0.862, :writing=>0.706},
+                 2010=>{:math=>0.849, :reading=>0.864, :writing=>0.662},
+                 2011=>{:math=>0.819, :reading=>0.867, :writing=>0.678},
+                 2012=>{:reading=>0.87, :math=>0.83, :writing=>0.655},
+                 2013=>{:math=>0.855, :reading=>0.859, :writing=>0.668},
+                 2014=>{:math=>0.834, :reading=>0.831, :writing=>0.639} }
+
+    assert_equal expected, @statewide_test.query_hash_by_three(@statewide_test.data[:third_grade], :timeframe, [{ :score => :data }])
+  end
+
+  def test_query_hash_by_three_with_race_by_subject_method_grabs_the_data_we_need
+    expected = { 2011=>{:math=>0.816},
+                 2012=>{:math=>0.818},
+                 2013=>{:math=>0.805},
+                 2014=>{:math=>0.8}}
+
+    assert_equal expected, @statewide_test.query_hash_by_three_with_race_by_subject(:asian, :math, @statewide_test.data[:math], :timeframe, [{ :score => :data }])
+  end
+
+  def test_year_over_year_avg
+    skip
+  end
+
+  def test_earliest_year_data
+    skip
+  end
+
+  def test_latest_year_data
+    skip
+  end
+
+  def test_get_avg
+    skip
+  end
+
+  def test_get_weighted_avgs
+    skip
+  end
+
+  def test_math_data
+    skip
+  end
+
+  def test_reading_data
+    skip
+  end
+
+  def test_writing_data
     skip
   end
 

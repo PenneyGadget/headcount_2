@@ -101,6 +101,22 @@ class HeadcountAnalystTest < Minitest::Test
     end
   end
 
+  def test_get_gradekey
+
+  end
+
+  def test_get_averages_with_single_leader
+
+  end
+
+  def test_get_averages_with_multiple_leaders
+
+  end
+
+  def test_averages_across_all_subjects
+
+  end
+
   def test_get_avg_method_does_the_maths_right
     data = [2.01, 5.0, 7.64, 11.92]
 
