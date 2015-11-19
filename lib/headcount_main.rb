@@ -17,5 +17,11 @@ epr.load_data({
                          }
              })
 ep = epr.find_by_name("ACADEMY 20")
-puts ep.estimated_median_household_income_in_year(2008)
-puts ep.median_household_income_average
+# puts ep.estimated_median_household_income_in_year(2008)
+# puts ep.median_household_income_average
+# puts ep.children_in_poverty_in_year(2012)
+# puts "We want .12743"
+# puts ep.free_or_reduced_price_lunch_percentage_in_year(2014)
+# puts ep.free_or_reduced_price_lunch_number_in_year(2012)
+puts ep.title_i_in_year(2014)
+"We want 0.0273"
