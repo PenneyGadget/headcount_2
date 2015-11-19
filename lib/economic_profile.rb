@@ -43,7 +43,7 @@ class EconomicProfile
   end
 
   def free_or_reduced_price_lunch_percentage_in_year(year)
-    fail UnknownDataError unless year_is_valid_for_free_or_reduced_lunch(year)
+    fail UnknownDataError unless year_is_valid_for_free_or_reduced_lunch_percent(year)
     percent_years = @data[:free_or_reduced_price_lunch].map do | hash_row |
       hash_row[:data].to_f if hash_row[:timeframe].to_f == year && hash_row[:dataformat] == "Percent" && hash_row[:poverty_level] == "Eligible for Free or Reduced Lunch"
     end
@@ -51,9 +51,19 @@ class EconomicProfile
   end
 
   def free_or_reduced_price_lunch_number_in_year(year)
+    fail UnknownDataError unless year_is_valid_for_title_i(year)
+    num_years = @data[:free_or_reduced_price_lunch].map do | hash_row |
+      hash_row[:data].to_f if hash_row[:timeframe].to_f == year && hash_row[:dataformat] == "Number" && hash_row[:poverty_level] == "Eligible for Free or Reduced Lunch"
+    end
+    num_years.compact.reduce(:+)
   end
 
   def title_i_in_year(year)
+    fail UnknownDataError unless year_is_valid_for_title_i(year)
+    percent_years = @data[:title_i].map do | hash_row |
+      hash_row[:data].to_f if hash_row[:timeframe].to_f == year && hash_row[:dataformat] == "Percent"
+    end
+    percent_years.compact.reduce(:+)
   end
 
   def year_is_valid_with_range(year)
@@ -69,9 +79,21 @@ class EconomicProfile
     end
   end
 
-  def year_is_valid_for_free_or_reduced_lunch(year)
+  def year_is_valid_for_free_or_reduced_lunch_percent(year)
     @data[:free_or_reduced_price_lunch].any? do | hash_row |
       hash_row[:timeframe].to_f == year && hash_row[:dataformat] == "Percent" && hash_row[:poverty_level] == "Eligible for Free or Reduced Lunch"
+    end
+  end
+
+  def year_is_valid_for_free_or_reduced_lunch_num(year)
+    @data[:free_or_reduced_price_lunch].any? do | hash_row |
+      hash_row[:timeframe].to_f == year && hash_row[:dataformat] == "Number" && hash_row[:poverty_level] == "Eligible for Free or Reduced Lunch"
+    end
+  end
+
+  def year_is_valid_for_title_i(year)
+    @data[:title_i].any? do | hash_row |
+      hash_row[:timeframe].to_f == year && hash_row[:dataformat] == "Percent"
     end
   end
 
