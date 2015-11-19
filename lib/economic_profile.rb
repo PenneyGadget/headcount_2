@@ -30,8 +30,6 @@ class EconomicProfile
     data_for_years.compact.reduce(:+)/data_for_years.length
   end
 
-  # I hate you git.
-
   def children_in_poverty_in_year(year)
   end
 

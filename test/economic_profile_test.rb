@@ -80,4 +80,14 @@ class EconomicProfileTest < Minitest::Test
     end
   end
 
+  def test_year_is_valid_with_range_returns_the_correct_boolean
+    assert @economic_profile.year_is_valid_with_range(2012)
+
+    refute @economic_profile.year_is_valid_with_range(1900)
+  end
+
+  def test_get_year_range_converts_a_string_range_to_a_usable_integer_range
+    assert_equal (2008..2014), @economic_profile.get_year_range("2008-2014")
+  end
+
 end
