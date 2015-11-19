@@ -23,7 +23,7 @@ class EconomicProfile
       hash_row[:data].to_i if get_year_range(hash_row[:timeframe]).include?(year)
     end
     data_for_years = data_for_years.compact
-    data_for_years.compact.reduce(:+)/data_for_years.length
+    truncate(data_for_years.compact.reduce(:+)/data_for_years.length)
   end
 
   def median_household_income_average
@@ -31,7 +31,7 @@ class EconomicProfile
       hash_row[:data].to_f
     end
     data_for_years = data_for_years.compact
-    data_for_years.compact.reduce(:+)/data_for_years.length
+    truncate(data_for_years.compact.reduce(:+)/data_for_years.length)
   end
 
   def children_in_poverty_in_year(year)
@@ -39,7 +39,7 @@ class EconomicProfile
     percent_years = @data[:children_in_poverty].map do | hash_row |
       hash_row[:data].to_f if hash_row[:timeframe].to_f == year && hash_row[:dataformat] == "Percent"
     end
-    percent_years.compact.reduce(:+)
+    truncate(percent_years.compact.reduce(:+))
   end
 
   def free_or_reduced_price_lunch_percentage_in_year(year)
@@ -47,15 +47,15 @@ class EconomicProfile
     percent_years = @data[:free_or_reduced_price_lunch].map do | hash_row |
       hash_row[:data].to_f if hash_row[:timeframe].to_f == year && hash_row[:dataformat] == "Percent" && hash_row[:poverty_level] == "Eligible for Free or Reduced Lunch"
     end
-    percent_years.compact.reduce(:+)
+    truncate(percent_years.compact.reduce(:+))
   end
 
   def free_or_reduced_price_lunch_number_in_year(year)
-    fail UnknownDataError unless year_is_valid_for_title_i(year)
+    fail UnknownDataError unless year_is_valid_for_free_or_reduced_lunch_num(year)
     num_years = @data[:free_or_reduced_price_lunch].map do | hash_row |
       hash_row[:data].to_f if hash_row[:timeframe].to_f == year && hash_row[:dataformat] == "Number" && hash_row[:poverty_level] == "Eligible for Free or Reduced Lunch"
     end
-    num_years.compact.reduce(:+)
+    truncate(num_years.compact.reduce(:+))
   end
 
   def title_i_in_year(year)
@@ -63,7 +63,7 @@ class EconomicProfile
     percent_years = @data[:title_i].map do | hash_row |
       hash_row[:data].to_f if hash_row[:timeframe].to_f == year && hash_row[:dataformat] == "Percent"
     end
-    percent_years.compact.reduce(:+)
+    truncate(percent_years.compact.reduce(:+))
   end
 
   def year_is_valid_with_range(year)
@@ -137,7 +137,6 @@ class EconomicProfile
       return_array << {:location => nil, :poverty_level => "Eligible for Free or Reduced Lunch", :timeframe => k.to_s, :dataformat => "Percent", :data => v[:percentage].to_s}
       return_array << {:location => nil, :poverty_level => "Eligible for Free or Reduced Lunch", :timeframe => k.to_s, :dataformat => "Number", :data => v[:total].to_s}
     end
-    binding.pry
     return_array
   end
 

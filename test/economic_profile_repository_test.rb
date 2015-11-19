@@ -6,7 +6,7 @@ class EconomicProfileRepositoryTest < Minitest::Test
 
   def setup
     @dr = DistrictRepository.new
-    @epr = @dr.enrollment_repo
+    @epr = @dr.economic_profile_repo
     @epr.load_data({:economic_profile => { :median_household_income => "./data/Median household income.csv",
                                            :children_in_poverty => "./data/School-aged children in poverty.csv",
                                            :free_or_reduced_price_lunch => "./data/Students qualifying for free or reduced price lunch.csv",
@@ -32,28 +32,39 @@ class EconomicProfileRepositoryTest < Minitest::Test
   end
 
   def test_store_economic_profiles_method_stores_our_economic_profile_objects_for_multiple_files
-    assert_equal EconomicProfile, @er.economic_profiles[0].class
-    assert_equal "WRAY SCHOOL DISTRICT RD-2", @epr.economic_profiles[-2].name
+    assert_equal EconomicProfile, @epr.economic_profiles[0].class
+    assert_equal "EAST YUMA COUNTY RJ-2", @epr.economic_profiles[-2].name
 
-    assert_equal({:name => "YUMA SCHOOL DISTRICT 1",
-                  :median_household_income => { 2007=>1, 2006=>1, 2005=>1,
-                                                2004=>0, 2008=>1, 2009=>1,
-                                                2010=>1, 2011=>1, 2012=>1,
-                                                2013=>1, 2014=>1 },
-                  :children_in_poverty =>     { 2010=>0.903, 2011=>0.891,
-                                                2012=>0.85455, 2013=>0.88333,
-                                                2014=>0.91 },
-                  :free_or_reduced_price_lunch =>     { 2010=>0.903, 2011=>0.891,
-                                                2012=>0.85455, 2013=>0.88333,
-                                                2014=>0.91 },
-                  :title_i =>     { 2010=>0.903, 2011=>0.891,
-                                                2012=>0.85455, 2013=>0.88333,
-                                                2014=>0.91 }
-                  }, @epr.economic_profiles[-1].data)
+    expected = {:name=>"WEST YUMA COUNTY RJ-1",
+                        :children_in_poverty=>[{:location=>"WEST YUMA COUNTY RJ-1",
+                                                :timeframe=>"1995",
+                                                :dataformat=>"Percent",
+                                                :data=>"0.146"},
+                                               {:location=>"WEST YUMA COUNTY RJ-1",
+                                                :timeframe=>"1997",
+                                                :dataformat=>"Percent",
+                                                :data=>"0.178"}], 
+                :free_or_reduced_price_lunch=>[{:location=>"WEST YUMA COUNTY RJ-1", 
+                                                :poverty_level=>"Eligible for Reduced Price Lunch", 
+                                                :timeframe=>"2000", 
+                                                :dataformat=>"Number", 
+                                                :data=>"112"},
+                                               {:location=>"WEST YUMA COUNTY RJ-1", 
+                                                :poverty_level=>"Eligible for Free Lunch", 
+                                                :timeframe=>"2000", 
+                                                :dataformat=>"Number", 
+                                                :data=>"350"}, 
+                                               {:location=>"WEST YUMA COUNTY RJ-1", 
+                                                :poverty_level=>"Eligible for Free or Reduced Lunch", 
+                                                :timeframe=>"2000", 
+                                                :dataformat=>"Number", 
+                                                :data=>"462"}]}
+
+    assert_equal expected, @epr.economic_profiles[-1].data
   end
 
   def test_first_and_last_economic_profile_objects_are_not_the_same_object
-    refute_equal @epr.economic_profile[0].object_id, @epr.economic_profile[-1].object_id
+    refute_equal @epr.economic_profiles[0].object_id, @epr.economic_profiles[-1].object_id
   end
 
   def test_find_by_name_method_returns_nil_with_an_invalid_name
